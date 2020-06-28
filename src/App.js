@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import  Home  from './components/home/Home';
+import projetMap21  from './components/projetMap21/projetMap21';
+import  nuageDeTheme  from './components/nuageDeThemes/nuageDeTheme';
+import { nouveauItem } from './components/nouveauItem/nouveauItem';
+import { Syllabus } from './components/syllabus/Syllabus';
+import { Guide } from './components/guide/Guide';
+import { Contact } from './components/contact/Contact';
+import { NoMatch } from './components/NoMatch';
+import { Layout } from './components/Layout';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
+import NavigationBar from './components/navbar/NavigationBar';
+import {Footer} from './components/footer/Footer';
+import "./App.css";
+//import { Jumbotron } from './components/Jumbotron';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  render() {
+    return (
+      <React.Fragment>
+        <Router>
+        <I18nextProvider i18n={i18n}>
+        <div>
+          <NavigationBar />
+          <Layout>
+            <Switch>
+              <Route exact path={["/", "/accueil"]} component={Home} />
+              <Route path="/projetmap21" component={projetMap21} />
+              <Route path="/nuagedethemes" component={nuageDeTheme} />
+              <Route path="/nouveauitem" component={nouveauItem} />
+              <Route path="/syllabus" component={Syllabus} />
+              <Route path="/guide" component={Guide} />
+              <Route path="/contact" component={Contact} />
+              <Route component={NoMatch} />
+            </Switch>
+          </Layout>
+        </div>
+          </I18nextProvider>
+        </Router>
+        <Footer/>
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;

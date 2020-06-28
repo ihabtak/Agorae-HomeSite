@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+.tag-cloud {
+	height: 50vh;
+	width: 100%;
+}
+
+.tag-cloud > div {
+	transition: 1.4s;
+}
+.container {
+   margin-top: 6rem;
+   margin-bottom: 3rem;
+}

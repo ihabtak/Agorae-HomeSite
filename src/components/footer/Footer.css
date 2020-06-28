@@ -1,0 +1,14 @@
+.main-footer{
+    background: url(../../assets/footerbg.png) repeat scroll left top transparent;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    border-top: 1px solid #000000;
+    color: #000000;
+    font-size: 0.8em;
+    height: 3em;
+    padding-top: 1em;
+    text-align: center;
+    font-family: Trebuchet MS;
+    width: 100%;
+}
