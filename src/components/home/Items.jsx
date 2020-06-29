@@ -116,7 +116,7 @@ class Items extends Component {
                 <Card.Text>{item["resume"]}</Card.Text>
               </Card.Body>
               <Card.Footer>
-                  <Button variant="primary" href={item["url"]} target="_blank">Plus</Button>
+                  <Button variant="primary" href={item["url"]}>Plus</Button>
               </Card.Footer>
             </Card>
                 
