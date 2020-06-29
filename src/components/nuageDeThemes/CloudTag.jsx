@@ -133,7 +133,7 @@ class CloudTag extends Component {
       if(fs>0){
         fs = Math.round((fs - min) / (max-min) * 12) + 14;
         //fs = fs+" rem";
-        tags.push(<a key={viewpoint["key"]} style={{fontSize: fs}} href={url} target="_blank" rel="noopener noreferrer">{name}</a>);
+        tags.push(<a key={viewpoint["key"]} style={{fontSize: fs}} href={url} >{name}</a>);
       }
      })
     return (
