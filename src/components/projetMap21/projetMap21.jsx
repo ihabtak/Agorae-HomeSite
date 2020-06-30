@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { translate } from 'react-i18next';
 import rose from '../../assets/rosedesvues.jpg';
-import  UseBlueCyan  from './useBlueCyan';
 
 const Styles = styled.div`
     .intro {
@@ -50,7 +49,7 @@ const projetMap21 = ({ t }) => (
             <h2>{t('projetMap21.sub-title-4')}</h2>
             <p>{t('projetMap21.sub4-content-p1')}</p>
             <p>{t('projetMap21.sub4-content-p2')}</p>
-            <UseBlueCyan/>
+            
         </div>
     </Styles>
 )

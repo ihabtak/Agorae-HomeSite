@@ -14,9 +14,7 @@ const Styles = styled.div`
     .clrtxtcyan {
         background-color: #144f5d;
     }
-    .clrtxtgreen {
-        background-color: #2e8059;   
-    }
+
     .navbar-brand{
        color:  white;
 
@@ -24,7 +22,7 @@ const Styles = styled.div`
      .navbar-nav .nav-link{
         color:  white;
         &:hover {
-            color: #2e8059;
+            color: #144f5d;
             background-color: white;
         }
      }
@@ -42,7 +40,7 @@ const Styles = styled.div`
 
 const NavigationBar = ({ t }) =>(
     <Styles>
-        <Navbar collapseOnSelect className="clrtxtgreen" expand="lg" fixed="top" id="nbr" >
+        <Navbar collapseOnSelect className="clrtxtcyan" expand="lg" fixed="top" id="nbr" >
             <Navbar.Brand href="/" className="logo">MAP21</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
