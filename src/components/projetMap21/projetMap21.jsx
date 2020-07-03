@@ -15,11 +15,16 @@ const Styles = styled.div`
         text-align:  center;
         margin-bottom:  2%;
      }
-     img {
+     @media only screen and (min-width: 992px) {
+     div img {
+        max-width: 50%;
+      }
+    }
+    img {
         border: 1px solid #ddd;
         border-radius: 4px;
         padding: 5px;
-        max-width: 50%;
+        max-width:80%;
         height: auto;
         display: block;
         margin-left: auto;
