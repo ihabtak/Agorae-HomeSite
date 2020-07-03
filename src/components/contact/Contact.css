@@ -1,21 +1,19 @@
-.ctt {
-   
-    font-family: Trebuchet MS;
-    
+.contactdiv {
+  font-family: Trebuchet MS;
 }
-.ctt p {
-    display: block;
-    font-family: Trebuchet MS;
-    font-size: xxx-large;
-    text-align: center;
-    height: 250px;
-    max-width: 100%;
-    margin-bottom: 30px;
-    margin-top: 100px;
-    padding: 120px;
-    color: #144f5d;
+.contactdiv p {
+  display: block;
+  font-family: Trebuchet MS;
+  font-size: x-large;
+  text-align: center;
+  height: 250px;
+  max-width: 100%;
+  margin-bottom: 30px;
+  margin-top: 100px;
+  padding: 120px 0;
+  color: #144f5d;
 }
-.ctt h1{
-    color: #808080;
-    margin-bottom:  2%;
+.contactdiv h1 {
+  color: #808080;
+  margin-bottom: 2%;
 }

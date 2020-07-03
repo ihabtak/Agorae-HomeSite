@@ -6,7 +6,7 @@ import  nuageDeTheme  from './components/nuageDeThemes/nuageDeTheme';
 import { nouveauItem } from './components/nouveauItem/nouveauItem';
 import { Syllabus } from './components/syllabus/Syllabus';
 import { Guide } from './components/guide/Guide';
-import { Contact } from './components/contact/Contact';
+import  Contact  from './components/contact/Contact';
 import { NoMatch } from './components/NoMatch';
 import { Layout } from './components/Layout';
 import { I18nextProvider } from 'react-i18next';

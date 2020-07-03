@@ -1,9 +1,7 @@
 {
     "fr": {
       "title": "Formulaire de contact",
-      "content": "Know the most beautiful lighthouses of the world.",
-      "figure": {
-        "alt": "Lighthouse picture"
-      }
+      "msg": "Votre message a été envoyé avec succès",
+      "sub_msg":"Une personne du staff-Map21 vous contactera dans les meilleurs délais."
     }
   }
