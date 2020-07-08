@@ -4,10 +4,16 @@
 /node_modules
 /.pnp
 .pnp.js
-
+#var
 .env
-
 ./src/components/Constants.js
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # testing
 /coverage
