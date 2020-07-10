@@ -49,7 +49,7 @@ export const FormSecondStep = (formikProps) => {
       <Form.Group controlId="r_itemControl">
         <RadioButtonGroup
           id="r_item"
-          label="Faites vous partie de cette organisation ?"
+          label="Par rapport à l’initiative que vous décrivez ci-dessous"
           value={values.r_item}
           error={errors.r_item}
           touched={touched.r_item}
