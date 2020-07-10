@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Formik } from "formik";
 import * as Yup from "yup";
-// eslint-disable-next-line
 import emailjs from "emailjs-com";
 import { translate } from "react-i18next";
 
