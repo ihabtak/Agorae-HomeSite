@@ -5,7 +5,6 @@
 /.pnp
 .pnp.js
 #var
-.env
 ./src/components/Constants.js
 
 # IDE - VSCode
