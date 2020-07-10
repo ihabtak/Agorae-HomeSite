@@ -68,7 +68,6 @@ const MYFORM = styled(Form)`
 
 const renderStep = (
   step,
-  item,
   values,
   errors,
   touched,
@@ -83,7 +82,6 @@ const renderStep = (
     case 1:
       return (
         <FormFirstStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -94,7 +92,6 @@ const renderStep = (
     case 2:
       return (
         <FormSecondStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -105,7 +102,6 @@ const renderStep = (
     case 3:
       return (
         <FormThirdStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -116,7 +112,6 @@ const renderStep = (
     case 4:
       return (
         <FormFourthStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -127,7 +122,6 @@ const renderStep = (
     case 5:
       return (
         <FormFifthStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -138,7 +132,6 @@ const renderStep = (
     case 6:
       return (
         <FormSixthStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -149,7 +142,6 @@ const renderStep = (
     case 7:
       return (
         <FormSeventhStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -160,7 +152,6 @@ const renderStep = (
     case 8:
       return (
         <FormEighthStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -171,7 +162,6 @@ const renderStep = (
     case 9:
       return (
         <FormNinthStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -182,7 +172,6 @@ const renderStep = (
     case 10:
       return (
         <FormTenthStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -193,7 +182,6 @@ const renderStep = (
     default:
       return (
         <FormFirstStep
-          item={item}
           values={values}
           errors={errors}
           touched={touched}
@@ -207,7 +195,6 @@ const renderStep = (
 export const MultiStep = (props) => {
   const [step, setStep] = useState(1);
   const [multiFormSubmitted, setMultiFormSubmitted] = useState(false);
-  const { item } = props;
 
   function sendEmail(values) {
     var template_id = "template_ZWvpcjq4_clone";
@@ -360,7 +347,6 @@ export const MultiStep = (props) => {
               <MYFORM onSubmit={handleSubmit} className="mx-auto">
                 {renderStep(
                   step,
-                  item,
                   values,
                   errors,
                   touched,

@@ -7,7 +7,6 @@ import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
 export const FormSecondStep = (formikProps) => {
   const [canal, setCanal] = useState("");
   const {
-    item,
     values,
     errors,
     touched,

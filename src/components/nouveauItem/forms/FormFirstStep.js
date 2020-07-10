@@ -7,7 +7,6 @@ import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
 export const FormFirstStep = (formikProps) => {
   const [autre, setautre] = useState("Autre");
   const {
-    item,
     values,
     errors,
     touched,

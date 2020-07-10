@@ -6,7 +6,6 @@ import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
 
 export const FormNinthStep = (formikProps) => {
   const {
-    item,
     values,
     errors,
     touched,

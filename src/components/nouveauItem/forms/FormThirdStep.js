@@ -5,7 +5,6 @@ import { Checkbox } from "../formComponents/Checkbox";
 
 export const FormThirdStep = (formikProps) => {
   const {
-    item,
     values,
     errors,
     touched,

@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 
 export const FormTenthStep = (formikProps) => {
   const {
-    item,
     values,
     errors,
     touched,

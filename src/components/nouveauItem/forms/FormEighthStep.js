@@ -6,14 +6,7 @@ import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
 
 export const FormEighthStep = (formikProps) => {
   const [tl_autre, setTl_autre] = useState("Autre");
-  const {
-    item,
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-  } = formikProps;
+  const { values, errors, touched, handleChange, handleBlur } = formikProps;
   return (
     <div>
       <Form.Group>
