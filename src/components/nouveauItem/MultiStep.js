@@ -202,9 +202,7 @@ export const MultiStep = (props) => {
     var user_id = process.env.REACT_APP_EMAILJS_USERID;
     emailjs.send("default_service", template_id, values, user_id).then(
       (result) => {},
-      (error) => {
-        console.log(error.text);
-      }
+      (error) => {}
     );
   }
 
@@ -275,8 +273,7 @@ export const MultiStep = (props) => {
     r_item: Yup.string().required("*requis"),
     charte: Yup.bool().oneOf([true], "Vous devez accepter la charte"),
     ci_nom: Yup.string(),
-    ci_email: Yup.string()
-      .email("*Doit être une adresse e-mail valide"),
+    ci_email: Yup.string().email("*Doit être une adresse e-mail valide"),
     nom_i: Yup.string().required("*requis"),
     type_i: Yup.string().required("*requis"),
     resume_i: Yup.string(),

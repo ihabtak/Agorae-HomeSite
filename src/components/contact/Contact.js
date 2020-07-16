@@ -83,9 +83,7 @@ const Contact = ({ t }) => {
     setFormSub(true);
     emailjs.send("default_service", template_id, values, user_id).then(
       (result) => {},
-      (error) => {
-        console.log(error.text);
-      }
+      (error) => {}
     );
   }
   if (!formSubmitted) {
