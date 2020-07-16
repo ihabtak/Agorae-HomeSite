@@ -111,8 +111,6 @@ class CloudTag extends Component {
     const tags = [];
     var max = 0;
     var min = 32768;
-    //const uniq = new Set(this.state.tagc.map(e => JSON.stringify(e)));
-
     const myData = []
       .concat(this.state.tagc)
       .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
@@ -123,11 +121,10 @@ class CloudTag extends Component {
       if (fs1 > max) max = fs1;
       if (fs1 < min) min = fs1;
     });
-
+    // eslint-disable-next-line
     myData.map((viewpoint, idx) => {
       var fs = viewpoint["size"];
       var name = viewpoint["name"];
-
       var url = viewpoint["url"];
       if (fs > 0) {
         fs = Math.round(((fs - min) / (max - min)) * 12) + 14;
