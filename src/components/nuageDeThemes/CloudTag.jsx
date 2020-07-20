@@ -97,10 +97,6 @@ class CloudTag extends Component {
           throw err;
         });
     });
-
-    setInterval(() => {
-      this.forceUpdate();
-    }, 5000);
   }
 
   componentWillUnmount() {
