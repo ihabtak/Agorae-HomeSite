@@ -1,13 +1,6 @@
 import React, { Component, Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Spinner from "react-bootstrap/Form";
-/* import projetMap21 from ;
-import nuageDeTheme from ;
-import { nouveauItem } from ;
-import { Syllabus } from ;
-import { Guide } from ;
-import Contact from ;
-import { NoMatch } from ; */
 import { Layout } from "./components/Layout";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
