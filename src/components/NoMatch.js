@@ -24,7 +24,7 @@ const Styles = styled.div`
   }
 `;
 
-export const NoMatch = () => (
+const NoMatch = () => (
   <Styles>
     <div className="notfnd">
       <span role="img" aria-label="sad face" style={{ fontSize: 100 }}>
@@ -36,3 +36,4 @@ export const NoMatch = () => (
     </div>
   </Styles>
 );
+export default NoMatch;
