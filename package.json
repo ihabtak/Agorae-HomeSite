@@ -1,7 +1,14 @@
 {
-  "name": "exago",
+  "name": "Agorae-map21",
   "version": "0.1.0",
+  "description": "Agorae-Map21 is a common mapping device for a generic co-built knowledge map about transitions. This generic scheme is adaptable to specific requirements of each organisation faced with transition goals.",
   "private": true,
+  "contributors": [
+    {
+      "name": "ihabtak",
+      "email": "ihabtak@gmail.com"
+    }
+  ],
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

@@ -2,22 +2,17 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import { Field } from "formik";
 import { Checkbox } from "../formComponents/Checkbox";
+import FormQ from "../formComponents/FormQ";
 
 export const FormThirdStep = (formikProps) => {
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-  } = formikProps;
+  const {values} = formikProps;
   if (values.r_item.includes("Responsable")) {
     return (
       <div>
         <Form.Group controlId="charteControl">
           <legend>Renseignements et engagement contributeur :</legend>
           <span>*</span>
-          <Form.Label>Merci de vérifier les informations</Form.Label>
+          <Form.Text className="text-muted">Merci de vérifier les informations</Form.Text>
           <Field
             component={Checkbox}
             name="charte"
@@ -31,47 +26,22 @@ export const FormThirdStep = (formikProps) => {
   if (values.r_item.includes("Entendu") || values.r_item.includes("rapport")) {
     return (
       <div>
-        <Form.Group controlId="ci_nomControl">
+        <Form.Group>
           <legend>Renseignements et engagement contributeur :</legend>
-          <Form.Label>
+          <Form.Text className="text-muted">
             Merci de nous communiquer le contact d’une personne responsable ou
             personnellement impliqué dans cette initiative
-          </Form.Label>
-          <Form.Label>Contact initiative </Form.Label>
-          <br />
-          <span>*</span>
-          <Form.Label>Nom</Form.Label>
-          <Form.Control
-            type="text"
-            name="ci_nom"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.ci_nom}
-            className={touched.ci_nom && errors.ci_nom ? "error" : null}
-          />
-          {touched.ci_nom && errors.ci_nom ? (
-            <div className="error-message">{errors.ci_nom}</div>
-          ) : null}
+          </Form.Text>
         </Form.Group>
-        <Form.Group controlId="ci_emailControl">
-          <span>*</span>
-          <Form.Label>Adresse e-mail</Form.Label>
-          <Form.Control
-            type="email"
-            name="ci_email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.ci_email}
-            className={touched.ci_email && errors.ci_email ? "error" : null}
-          />
-          {touched.ci_email && errors.ci_email ? (
-            <div className="error-message">{errors.email}</div>
-          ) : null}
-        </Form.Group>
+        <FormQ label="Nom" legend="Contact initiative" required name="ci_nom" type="text" />
+        <FormQ label="Adresse e-mail" required name="ci_email" type="email" />
         <Form.Group controlId="charteControl">
           <legend>Renseignements et engagement contributeur :</legend>
           <span>*</span>
-          <Form.Label>Merci de vérifier les informations</Form.Label>
+          <Form.Text className="text-muted">
+            Merci de vérifier les informations
+          </Form.Text>
+          
           <Field
             component={Checkbox}
             name="charte"
