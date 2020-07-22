@@ -190,7 +190,6 @@ export const MultiStep = (props) => {
   const btnStep = (nb) => setStep((step) => step + nb);
 
   function ItemForm(props) {
-    console.log(props.values);
     return (
       <MYFORM onSubmit={props.handleSubmit} className="mx-auto">
         {renderStep(step, props.values, props.errors, props.touched)}
