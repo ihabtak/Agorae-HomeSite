@@ -64,130 +64,57 @@ const MYFORM = styled(Form)`
   label.form-label {
     margin-left: 1%;
   }
+  small.text-muted {
+    margin-left: 1%;
+  }
+  .input-field > fieldset > div > label {
+    font-size: 1rem;
+  }
+  .form-group > div > label {
+    font-size: 1rem;
+  }
+  .form-group > legend:nth-child(1)
 `;
 
-const renderStep = (
-  step,
-  values,
-  errors,
-  touched,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  setFieldValue,
-  setFieldTouched,
-  isSubmitting
-) => {
+const renderStep = (step, values, errors, touched) => {
   switch (step) {
     case 1:
       return (
-        <FormFirstStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormFirstStep values={values} errors={errors} touched={touched} />
       );
     case 2:
       return (
-        <FormSecondStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormSecondStep values={values} errors={errors} touched={touched} />
       );
     case 3:
-      return (
-        <FormThirdStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-      );
+      return <FormThirdStep values={values} />;
     case 4:
       return (
-        <FormFourthStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormFourthStep values={values} errors={errors} touched={touched} />
       );
     case 5:
-      return (
-        <FormFifthStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-      );
+      return <FormFifthStep />;
     case 6:
       return (
-        <FormSixthStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormSixthStep values={values} errors={errors} touched={touched} />
       );
     case 7:
       return (
-        <FormSeventhStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormSeventhStep values={values} errors={errors} touched={touched} />
       );
     case 8:
       return (
-        <FormEighthStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormEighthStep values={values} errors={errors} touched={touched} />
       );
     case 9:
       return (
-        <FormNinthStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormNinthStep values={values} errors={errors} touched={touched} />
       );
     case 10:
-      return (
-        <FormTenthStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-      );
+      return <FormTenthStep />;
     default:
       return (
-        <FormFirstStep
-          values={values}
-          errors={errors}
-          touched={touched}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
+        <FormFirstStep values={values} errors={errors} touched={touched} />
       );
   }
 };
@@ -237,6 +164,7 @@ export const MultiStep = (props) => {
     ville: "",
     partenaire_territorial: "",
     partenaire_asso: "",
+    ref_e: "",
     type_livrable: "",
     liv1_intitule: "",
     liv1_adresse: "",
@@ -261,6 +189,20 @@ export const MultiStep = (props) => {
 
   const btnStep = (nb) => setStep((step) => step + nb);
 
+  function ItemForm(props) {
+    console.log(props.values);
+    return (
+      <MYFORM onSubmit={props.handleSubmit} className="mx-auto">
+        {renderStep(step, props.values, props.errors, props.touched)}
+        <StepButton
+          btnStep={btnStep}
+          Rstep={step}
+          isSubmitting={props.isSubmitting}
+        />
+      </MYFORM>
+    );
+  }
+
   const validationSchema = Yup.object().shape({
     cc_item: Yup.string().required("*requis"),
     pdc_organisation: Yup.string().required("*requis"),
@@ -280,11 +222,11 @@ export const MultiStep = (props) => {
     suite_resume: Yup.string(),
     summary_i: Yup.string(),
     conti_summary: Yup.string(),
-    status_i: Yup.string().required("*requis"),
+    status_i: Yup.string(),
     avancee_i: Yup.string(),
-    date_d_i: Yup.string(),
+    date_d_i: Yup.string().required("*requis"),
     date_f_i: Yup.string(),
-    projet_industriel: Yup.string().required("*requis"),
+    projet_industriel: Yup.string(),
     partenaire_industriel: Yup.string(),
     projet_recherche: Yup.string(),
     equipe_recherche: Yup.string(),
@@ -294,6 +236,7 @@ export const MultiStep = (props) => {
     ville: Yup.string(),
     partenaire_territorial: Yup.string(),
     partenaire_asso: Yup.string(),
+    ref_e: Yup.string(),
     type_livrable: Yup.string(),
     liv1_intitule: Yup.string(),
     liv1_adresse: Yup.string(),
@@ -322,6 +265,7 @@ export const MultiStep = (props) => {
         <CONTAINER>
           <Formik
             enableReinitialize
+            component={ItemForm}
             initialValues={{ ...formData }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -331,33 +275,7 @@ export const MultiStep = (props) => {
                 resetForm();
               }, 200);
             }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <MYFORM onSubmit={handleSubmit} className="mx-auto">
-                {renderStep(
-                  step,
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur
-                )}
-                <StepButton
-                  btnStep={btnStep}
-                  Rstep={step}
-                  isSubmitting={isSubmitting}
-                />
-              </MYFORM>
-            )}
-          </Formik>
+          />
         </CONTAINER>
       </div>
     );

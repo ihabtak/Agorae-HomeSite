@@ -6,7 +6,7 @@ export const FormSuccess = () => {
   return (
     <div>
       <Form.Group>
-        <legend>Merci de votre proposition. </legend>
+        <legend>Merci pour votre proposition. </legend>
         <Form.Label>Quelqu'un du staff-Map21 vous contactera dans les meilleurs délais.</Form.Label>
       </Form.Group>
     </div>

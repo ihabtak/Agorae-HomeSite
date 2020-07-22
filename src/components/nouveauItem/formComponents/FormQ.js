@@ -3,12 +3,14 @@ import React from "react";
 import { Form } from "react-bootstrap";
 
 const FormQ = connect((props) => {
-  const { label, required, name, type, ...inputProps } = props;
+  const { label, slabel, required, name, type, legend, rows } = props;
   const { errors, touched, handleChange, handleBlur, values } = props.formik;
   return (
-    <Form.Group controlId={name+"Control"}>
+    <Form.Group controlId={name + "Control"}>
+      {legend && <legend>{legend}</legend>}
       {label && <Form.Label>{label}</Form.Label>}
-      {required ? <span>*</span> : null}
+      {required && label ? <span>*</span> : null}
+      {slabel && <Form.Text className="text-muted">{slabel}</Form.Text>}
       {type.includes("email") ? (
         <Form.Control
           name={name}
@@ -20,10 +22,10 @@ const FormQ = connect((props) => {
           className={touched[name] && errors[name] ? "error" : null}
         />
       ) : type.includes("textarea") ? (
-        <Form.Control
+        rows && <Form.Control
           name={name}
           as={type}
-          rows="6"
+          rows={rows}
           onChange={handleChange}
           onBlur={handleBlur}
           value={values[name]}

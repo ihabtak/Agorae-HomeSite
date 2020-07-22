@@ -3,39 +3,34 @@ import Form from "react-bootstrap/Form";
 import { Field } from "formik";
 import { RadioButton } from "../formComponents/RadioButton";
 import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
+import FormQ from "../formComponents/FormQ";
 
 export const FormSixthStep = (formikProps) => {
   const [s_autre, setS_autre] = useState("Autre");
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-  } = formikProps;
+  const { values, errors, touched } = formikProps;
   return (
     <div>
       <Form.Group>
         <legend>Description de l’initiative</legend>
-        <Form.Label>
+        <Form.Text className="text-muted">
           Ces renseignements, après vérification éventuelle, seront publics
           figureront dans la base Agorae Map21
-        </Form.Label>
+        </Form.Text>
       </Form.Group>
       <Form.Group controlId="status_iControl">
+        <Form.Label>Statut de l'initiative</Form.Label>
+        <Form.Text className="text-muted">
+          (choisir dans la lite ci-dessous , si « autre », merci de préciser)
+        </Form.Text>
         <span>*</span>
         <RadioButtonGroup
           id="status_i"
-          label="Statut de l'initiative"
           value={values.status_i}
           error={errors.status_i}
           touched={touched.status_i}
           key="status_iRadio"
           className="mb-3"
         >
-          <Form.Label>
-            (choisir dans la lite ci-dessous , si « autre », merci de préciser)
-          </Form.Label>
           <Field
             component={RadioButton}
             name="status_i"
@@ -77,18 +72,18 @@ export const FormSixthStep = (formikProps) => {
       </Form.Group>
       {values.status_i.includes("En cours") ? (
         <Form.Group controlId="avancee_iControl">
+          <Form.Label>Avancée de l'initiative</Form.Label>
+          <Form.Text className="text-muted">
+            (indiquez un chiffre suivant l’échelle de 1 à 10 suivante)
+          </Form.Text>
           <RadioButtonGroup
             id="avancee_i"
-            label="Avancée de l'initiative"
             value={values.avancee_i}
             error={errors.avancee_i}
             touched={touched.avancee_i}
             key="avancee_iRadio"
             className="mb-3"
           >
-            <Form.Label>
-              (indiquez un chiffre suivant l’échelle de 1 à 10 suivante)
-            </Form.Label>
             <Field
               component={RadioButton}
               name="avancee_i"
@@ -154,42 +149,25 @@ export const FormSixthStep = (formikProps) => {
       ) : (
         <div></div>
       )}
-      <Form.Group controlId="date_d_iControl">
-        <span>*</span>
-        <legend>Date de début</legend>
-        <Form.Label>mois (facultatif)/ année (requis)</Form.Label>
-        <Form.Control
-          type="text"
-          name="date_d_i"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.date_d_i}
-          className={touched.date_d_i && errors.date_d_i ? "error" : null}
-        />
-        {touched.date_d_i && errors.date_d_i ? (
-          <div className="error-message">{errors.date_d_i}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="date_f_iControl">
-        <legend>Date de fin</legend>
-        <Form.Label>mois/année (facultatif)</Form.Label>
-        <Form.Control
-          type="text"
-          name="date_f_i"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.date_f_i}
-          className={touched.date_f_i && errors.date_f_i ? "error" : null}
-        />
-        {touched.date_f_i && errors.date_f_i ? (
-          <div className="error-message">{errors.date_f_i}</div>
-        ) : null}
-      </Form.Group>
+      <FormQ
+        label="Date de début"
+        required
+        slabel="mois (facultatif)/ année (requis)"
+        name="date_d_i"
+        type="text"
+      />
+      <FormQ
+        label="Date de fin"
+        slabel="mois/année (facultatif)"
+        name="date_f_i"
+        type="text"
+      />
+
       <Form.Group controlId="projet_industrielControl">
+        <Form.Label>S’agit il d’un projet industriel ?</Form.Label>
         <span>*</span>
         <RadioButtonGroup
           id="projet_industriel"
-          label="S’agit il d’un projet industriel ?"
           value={values.projet_industriel}
           error={errors.projet_industriel}
           touched={touched.projet_industriel}
@@ -211,26 +189,13 @@ export const FormSixthStep = (formikProps) => {
         </RadioButtonGroup>
       </Form.Group>
       {values.projet_industriel.includes("OUI") ? (
-        <Form.Group controlId="partenaire_industrielControl">
-          <span>*</span>
-          <legend>Mentionner la ou les partenaire(s) industriel(s)</legend>
-          <Form.Control
-            as="textarea"
-            rows="3"
-            name="partenaire_industriel"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.partenaire_industriel}
-            className={
-              touched.partenaire_industriel && errors.partenaire_industriel
-                ? "error"
-                : null
-            }
-          />
-          {touched.partenaire_industriel && errors.partenaire_industriel ? (
-            <div className="error-message">{errors.partenaire_industriel}</div>
-          ) : null}
-        </Form.Group>
+        <FormQ
+          label="Mentionner la ou les partenaire(s) industriel(s)"
+          required
+          rows="3"
+          name="partenaire_industriel"
+          type="textarea"
+        />
       ) : (
         <div></div>
       )}

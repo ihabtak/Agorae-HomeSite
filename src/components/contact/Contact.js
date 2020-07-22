@@ -23,14 +23,14 @@ const Contact = ({ t }) => {
   function Contactform(props) {
     return (
       <MYFORM onSubmit={props.handleSubmit} className="mx-auto">
-        <FormQ label="Name" required="false" name="name" type="text" />
+        <FormQ label="Name" name="name" type="text" />
         <FormQ
           label="Email address"
-          required="true"
+          required
           name="email"
           type="email"
         />
-        <FormQ label="Message" required="true" name="message" type="textarea" />
+        <FormQ label="Message" required rows="6" name="message" type="textarea" />
         <BUTTON variant="primary" type="submit" disabled={props.isSubmitting}>
           Submit
         </BUTTON>
