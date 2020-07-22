@@ -1,55 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Form from "react-bootstrap/Form";
 import { Field } from "formik";
 import { RadioButton } from "../formComponents/RadioButton";
 import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
+import FormQ from "../formComponents/FormQ";
 
 export const FormSecondStep = (formikProps) => {
   const [canal, setCanal] = useState("");
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-  } = formikProps;
+  const { values, errors, touched } = formikProps;
   return (
-    <div>
-      <Form.Group controlId="pseudoControl">
-        <legend>Renseignements et engagement contributeur :</legend>
-        <span>*</span>
-        <Form.Label>Surnom ou pseudo</Form.Label>
-        <Form.Control
-          type="text"
-          name="pseudo"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.pseudo}
-          className={touched.pseudo && errors.pseudo ? "error" : null}
-        />
-        {touched.pseudo && errors.pseudo ? (
-          <div className="error-message">{errors.pseudo}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="emailControl">
-        <span>*</span>
-        <Form.Label>Adresse e-mail</Form.Label>
-        <Form.Control
-          type="email"
-          name="email"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.email}
-          className={touched.email && errors.email ? "error" : null}
-        />
-        {touched.email && errors.email ? (
-          <div className="error-message">{errors.email}</div>
-        ) : null}
-      </Form.Group>
+    <Fragment>
+      <FormQ
+        label="Surnom ou pseudo"
+        required
+        legend="Renseignements et engagement contributeur :"
+        name="pseudo"
+        type="text"
+      />
+      <FormQ label="Adresse e-mail" required name="email" type="email" />
       <Form.Group controlId="r_itemControl">
+      <Form.Label>Par rapport à l’initiative que vous décrivez ci-dessous</Form.Label>
+      <span>*</span>
         <RadioButtonGroup
           id="r_item"
-          label="Par rapport à l’initiative que vous décrivez ci-dessous"
           value={values.r_item}
           error={errors.r_item}
           touched={touched.r_item}
@@ -83,6 +56,6 @@ export const FormSecondStep = (formikProps) => {
           />
         </RadioButtonGroup>
       </Form.Group>
-    </div>
+    </Fragment>
   );
 };

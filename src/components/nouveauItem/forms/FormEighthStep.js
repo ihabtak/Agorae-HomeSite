@@ -3,19 +3,20 @@ import Form from "react-bootstrap/Form";
 import { Field } from "formik";
 import { RadioButton } from "../formComponents/RadioButton";
 import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
+import FormQ from "../formComponents/FormQ";
 
 export const FormEighthStep = (formikProps) => {
   const [tl_autre, setTl_autre] = useState("Autre");
-  const { values, errors, touched, handleChange, handleBlur } = formikProps;
+  const { values, errors, touched} = formikProps;
   return (
     <div>
       <Form.Group>
         <legend>Livrables intéressants à partager </legend>
       </Form.Group>
       <Form.Group controlId="type_livrableControl">
+        <Form.Label>Type de livrable:</Form.Label>
         <RadioButtonGroup
           id="type_livrable"
-          label="Type de livrable:"
           value={values.type_livrable}
           error={errors.type_livrable}
           touched={touched.type_livrable}
@@ -132,140 +133,52 @@ export const FormEighthStep = (formikProps) => {
         </RadioButtonGroup>
       </Form.Group>
       <Form.Group>
-        <Form.Label>Liens vers des ressources complémentaires </Form.Label>
-        <Form.Label>
-          (indiquez pour chaque lien ce dont il s’agit (page Web, rapport,
-          vidéo, etc){" "}
-        </Form.Label>
+        <legend>Liens vers des ressources complémentaires </legend>
+        <Form.Text className="text-muted">
+          Indiquez pour chaque lien ce dont il s’agit (page Web, rapport,
+          vidéo, etc)
+        </Form.Text>
       </Form.Group>
-      <Form.Group controlId="liv1_intituleControl">
-        <Form.Label>Intitulé souhaité pour cette ressource 1:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv1_intitule"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv1_intitule}
-          className={
-            touched.liv1_intitule && errors.liv1_intitule ? "error" : null
-          }
-        />
-        {touched.liv1_intitule && errors.liv1_intitule ? (
-          <div className="error-message">{errors.liv1_intitule}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="liv1_adresseControl">
-        <Form.Label>Adresse Web de la ressource 1:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv1_adresse"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv1_adresse}
-          className={
-            touched.liv1_adresse && errors.liv1_adresse ? "error" : null
-          }
-        />
-        {touched.liv1_adresse && errors.liv1_adresse ? (
-          <div className="error-message">{errors.liv1_adresse}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="liv2_intituleControl">
-        <Form.Label>Intitulé souhaité pour cette ressource 2:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv2_intitule"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv2_intitule}
-          className={
-            touched.liv2_intitule && errors.liv2_intitule ? "error" : null
-          }
-        />
-        {touched.liv2_intitule && errors.liv2_intitule ? (
-          <div className="error-message">{errors.liv2_intitule}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="liv2_adresseControl">
-        <Form.Label>Adresse Web de la ressource 2:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv2_adresse"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv2_adresse}
-          className={
-            touched.liv2_adresse && errors.liv2_adresse ? "error" : null
-          }
-        />
-        {touched.liv2_adresse && errors.liv2_adresse ? (
-          <div className="error-message">{errors.liv2_adresse}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="liv3_intituleControl">
-        <Form.Label>Intitulé souhaité pour cette ressource 3:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv3_intitule"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv3_intitule}
-          className={
-            touched.liv3_intitule && errors.liv3_intitule ? "error" : null
-          }
-        />
-        {touched.liv3_intitule && errors.liv3_intitule ? (
-          <div className="error-message">{errors.liv3_intitule}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="liv3_adresseControl">
-        <Form.Label>Adresse Web de la ressource 3:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv3_adresse"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv3_adresse}
-          className={
-            touched.liv3_adresse && errors.liv3_adresse ? "error" : null
-          }
-        />
-        {touched.liv3_adresse && errors.liv3_adresse ? (
-          <div className="error-message">{errors.liv3_adresse}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="liv4_intituleControl">
-        <Form.Label>Intitulé souhaité pour cette ressource 4:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv4_intitule"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv4_intitule}
-          className={
-            touched.liv4_intitule && errors.liv4_intitule ? "error" : null
-          }
-        />
-        {touched.liv4_intitule && errors.liv4_intitule ? (
-          <div className="error-message">{errors.liv4_intitule}</div>
-        ) : null}
-      </Form.Group>
-      <Form.Group controlId="liv4_adresseControl">
-        <Form.Label>Adresse Web de la ressource 4:</Form.Label>
-        <Form.Control
-          type="text"
-          name="liv4_adresse"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.liv4_adresse}
-          className={
-            touched.liv4_adresse && errors.liv4_adresse ? "error" : null
-          }
-        />
-        {touched.liv4_adresse && errors.liv4_adresse ? (
-          <div className="error-message">{errors.liv1_adresse}</div>
-        ) : null}
-      </Form.Group>
+      <FormQ
+        label="Intitulé souhaité pour cette ressource 1:"
+        name="liv1_intitule"
+        type="text"
+      />
+      <FormQ
+        label="Adresse Web de la ressource 1:"
+        name="liv1_adresse"
+        type="text"
+      />
+      <FormQ
+        label="Intitulé souhaité pour cette ressource 2:"
+        name="liv2_intitule"
+        type="text"
+      />
+      <FormQ
+        label="Adresse Web de la ressource 2:"
+        name="liv2_adresse"
+        type="text"
+      />
+      <FormQ
+        label="Intitulé souhaité pour cette ressource 3:"
+        name="liv3_intitule"
+        type="text"
+      />
+      <FormQ
+        label="Adresse Web de la ressource 3:"
+        name="liv3_adresse"
+        type="text"
+      />
+      <FormQ
+        label="Intitulé souhaité pour cette ressource 4:"
+        name="liv4_intitule"
+        type="text"
+      />
+      <FormQ
+        label="Adresse Web de la ressource 4:"
+        name="liv4_adresse"
+        type="text"
+      />
     </div>
   );
 };

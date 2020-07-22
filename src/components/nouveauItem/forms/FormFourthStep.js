@@ -3,58 +3,42 @@ import Form from "react-bootstrap/Form";
 import { Field } from "formik";
 import { RadioButton } from "../formComponents/RadioButton";
 import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
+import FormQ from "../formComponents/FormQ";
 
 export const FormFourthStep = (formikProps) => {
   const [t_autre, setT_autre] = useState("Autre");
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-  } = formikProps;
+  const { values, errors, touched } = formikProps;
   return (
     <div>
       <Form.Group>
         <legend>Description de l’initiative</legend>
-        <Form.Label>
+        <Form.Text className="text-muted">
           Ces renseignements, après vérification éventuelle, seront publics
           figureront dans la base Agorae Map21
-        </Form.Label>
+        </Form.Text>
       </Form.Group>
-      <Form.Group controlId="nom_iControl">
-        <span>*</span>
-        <legend>Nom de l'initiative</legend>
-        <Form.Label>
-          (max. 30 caractères, mais un code court d’une dizaine de caractères
-          est conseillé)
-        </Form.Label>
-        <Form.Control
-          type="text"
-          name="nom_i"
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.nom_i}
-          className={touched.nom_i && errors.nom_i ? "error" : null}
-        />
-        {touched.nom_i && errors.nom_i ? (
-          <div className="error-message">{errors.nom_i}</div>
-        ) : null}
-      </Form.Group>
+      <FormQ
+        slabel="(max. 30 caractères, mais un code court d’une dizaine de caractères
+          est conseillé)"
+        label="Nom de l'initiative"
+        required
+        name="nom_i"
+        type="text"
+      />
       <Form.Group controlId="type_iControl">
+       <Form.Label>Type d'initiative</Form.Label>
         <span>*</span>
         <RadioButtonGroup
           id="type_i"
-          label="Type d'initiative"
           value={values.type_i}
           error={errors.type_i}
           touched={touched.type_i}
           key="type_iRadio"
           className="mb-3"
         >
-          <Form.Label>
+        <Form.Text className="text-muted">
             (choisir dans la liste ci-dessous , si « autre », merci de préciser)
-          </Form.Label>
+          </Form.Text>
           <Field
             component={RadioButton}
             name="type_i"

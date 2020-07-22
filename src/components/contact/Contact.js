@@ -1,67 +1,12 @@
 import React, { useState } from "react";
 import "./Contact.css";
-import styled from "styled-components";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import { CONTAINER, MYFORM, BUTTON } from "./styling/styles";
+import FormQ from "../nouveauItem/formComponents/FormQ";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import emailjs from "emailjs-com";
 import { translate } from "react-i18next";
 
-const CONTAINER = styled.div`
-  background: #f7f9fa;
-  height: auto;
-  width: 90%;
-  margin: 3em auto;
-  color: red;
-  -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.4);
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.4);
-
-  @media (min-width: 786px) {
-    width: 70%;
-  }
-  span {
-    color: red;
-  }
-
-  label {
-    color: #144f5d;
-    font-size: 1.2em;
-    font-weight: 400;
-  }
-
-  h1 {
-    color: #144f5d;
-    padding-top: 0.5em;
-  }
-
-  .form-group {
-    margin-bottom: 2.5em;
-  }
-`;
-
-const MYFORM = styled(Form)`
-  width: 90%;
-  text-align: left;
-  padding-top: 2em;
-  padding-bottom: 2em;
-
-  @media (min-width: 786px) {
-    width: 70%;
-  }
-`;
-
-const BUTTON = styled(Button)`
-  background: #1863ab;
-  border: none;
-  font-size: 1.2em;
-  font-weight: 400;
-
-  &:hover {
-    background: #1d3461;
-  }
-`;
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "*Names must have at least 2 characters")
@@ -75,7 +20,23 @@ const validationSchema = Yup.object().shape({
 
 const Contact = ({ t }) => {
   const [formSubmitted, setFormSub] = useState(false);
-
+  function Contactform(props) {
+    return (
+      <MYFORM onSubmit={props.handleSubmit} className="mx-auto">
+        <FormQ label="Name" name="name" type="text" />
+        <FormQ
+          label="Email address"
+          required
+          name="email"
+          type="email"
+        />
+        <FormQ label="Message" required rows="6" name="message" type="textarea" />
+        <BUTTON variant="primary" type="submit" disabled={props.isSubmitting}>
+          Submit
+        </BUTTON>
+      </MYFORM>
+    );
+  }
   function sendEmail(values) {
     var template_id = "template_ZWvpcjq4";
 
@@ -92,84 +53,19 @@ const Contact = ({ t }) => {
         <h1>{t("contact.title")}</h1>
         <CONTAINER>
           <Formik
+            component={Contactform}
             initialValues={{ name: "", email: "", message: "" }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setSubmitting(true);
+              setFormSub(true);
               setTimeout(() => {
                 sendEmail(values);
                 resetForm();
                 setSubmitting(false);
               }, 200);
             }}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <MYFORM onSubmit={handleSubmit} className="mx-auto">
-                <Form.Group controlId="nameControl">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder="Name/Pseudo"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.name}
-                    className={touched.name && errors.name ? "error" : null}
-                  />
-                  {touched.name && errors.name ? (
-                    <div className="error-message">{errors.name}</div>
-                  ) : null}
-                </Form.Group>
-                <Form.Group controlId="emailControl">
-                  <Form.Label>
-                    Email address <span>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    name="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                    className={touched.email && errors.email ? "error" : null}
-                  />
-                  {touched.email && errors.email ? (
-                    <div className="error-message">{errors.email}</div>
-                  ) : null}
-                </Form.Group>
-                <Form.Group controlId="messageControl">
-                  <Form.Label>
-                    Message <span>*</span>
-                  </Form.Label>
-                  <Form.Control
-                    name="message"
-                    as="textarea"
-                    rows="3"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.message}
-                    className={
-                      touched.message && errors.message ? "error" : null
-                    }
-                  />
-                  {touched.message && errors.message ? (
-                    <div className="error-message">{errors.message}</div>
-                  ) : null}
-                </Form.Group>
-                <BUTTON variant="primary" type="submit" disabled={isSubmitting}>
-                  Submit
-                </BUTTON>
-              </MYFORM>
-            )}
-          </Formik>
+          />
         </CONTAINER>
       </div>
     );
