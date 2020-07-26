@@ -1,13 +1,28 @@
-import React, { useState, Fragment } from "react";
-import Form from "react-bootstrap/Form";
-import { Field } from "formik";
-import { RadioButton } from "../formComponents/RadioButton";
-import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
+import React, { Fragment } from "react";
 import FormQ from "../formComponents/FormQ";
+import FormC from "../formComponents/FormC";
 
 export const FormSecondStep = (formikProps) => {
-  const [canal, setCanal] = useState("");
-  const { values, errors, touched } = formikProps;
+  const {item} = formikProps;
+  let lr_label, lr_fId, lr_fLabel, lr_sId, lr_sLabel;
+  if (item === "1") {
+    lr_label = "Par rapport à l’initiative que vous décrivez ci-dessous";
+    lr_fId = "Responsable ou personnellement impliqué dans cette initiative";
+    lr_fLabel =
+      "Êtes-vous responsable ou personnellement impliqué dans cette initiative ?";
+    lr_sId = "En rapport avec les porteurs de cette initiative";
+    lr_sLabel =
+      "Sinon, êtes vous en rapport avec les porteurs de cette initiative ?";
+  } else {
+    lr_label = "Par rapport à l’élément que vous décrivez ci-dessous";
+    lr_fId = "Responsable ou personnellement impliqué dans cette élément";
+    lr_fLabel =
+      "Êtes-vous responsable ou personnellement impliqué dans cette élément ?";
+    lr_sId = "En rapport avec les porteurs de cette élément";
+    lr_sLabel =
+      "Sinon, êtes vous en rapport avec les porteurs de cette élément ?";
+  }
+
   return (
     <Fragment>
       <FormQ
@@ -18,44 +33,19 @@ export const FormSecondStep = (formikProps) => {
         type="text"
       />
       <FormQ label="Adresse e-mail" required name="email" type="email" />
-      <Form.Group controlId="r_itemControl">
-      <Form.Label>Par rapport à l’initiative que vous décrivez ci-dessous</Form.Label>
-      <span>*</span>
-        <RadioButtonGroup
-          id="r_item"
-          value={values.r_item}
-          error={errors.r_item}
-          touched={touched.r_item}
-          key="r_itemRadio"
-          className="mb-3"
-        >
-          <Field
-            component={RadioButton}
-            name="r_item"
-            id="Responsable ou personnellement impliqué dans cette initiative"
-            label="Êtes-vous responsable ou personnellement impliqué dans cette initiative ?"
-          />
-          <Field
-            component={RadioButton}
-            name="r_item"
-            id="En rapport avec les porteurs de cette initiative"
-            label="sinon, êtes vous en rapport avec les porteurs de cette initiative ?"
-          />
-          <Field
-            component={RadioButton}
-            name="r_item"
-            id={canal}
-            label="ou sinon, vous en avez entendu parler ? Par quel canal ?"
-          />
-          <Form.Control
-            type="text"
-            name="r_item3r"
-            onChange={(e) =>
-              setCanal("Entendu parler, par le canal : " + e.target.value)
-            }
-          />
-        </RadioButtonGroup>
-      </Form.Group>
+      <FormC
+        label={lr_label}
+        required
+        name="r_item"
+        other
+        place_h=""
+        label_other="Ou sinon, vous en avez entendu parler ? Par quel canal ?"
+        v_other="Entendu parler, par le canal : "
+        options={[
+          { id: lr_fId, value: lr_fLabel },
+          { id: lr_sId, value: lr_sLabel },
+        ]}
+      />
     </Fragment>
   );
 };

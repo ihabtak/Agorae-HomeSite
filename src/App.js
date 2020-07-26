@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import  Home  from './components/home/Home';
 import projetMap21  from './components/projetMap21/projetMap21';
 import  nuageDeTheme  from './components/nuageDeThemes/nuageDeTheme';
-import { nouveauItem } from './components/nouveauItem/nouveauItem';
+import  NouveauItem  from './components/nouveauItem/NouveauItem';
 import { Syllabus } from './components/syllabus/Syllabus';
 import { Guide } from './components/guide/Guide';
 import  Contact  from './components/contact/Contact';
@@ -30,7 +30,7 @@ class App extends Component {
               <Route exact path={["/", "/accueil"]} component={Home} />
               <Route path="/projetmap21" component={projetMap21} />
               <Route path="/nuagedethemes" component={nuageDeTheme} />
-              <Route path="/nouveauitem" component={nouveauItem} />
+              <Route path="/Nouveauitem" component={NouveauItem} />
               <Route path="/syllabus" component={Syllabus} />
               <Route path="/guide" component={Guide} />
               <Route path="/contact" component={Contact} />

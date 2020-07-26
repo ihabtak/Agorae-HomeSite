@@ -20,7 +20,7 @@ export const Checkbox = ({
         checked={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={classNames("radio-button")}
+        className={classNames("checkbox-button")}
       />
       <label htmlFor={id}>{label}</label>
       {touched[name] && <InputFeedback error={errors[name]} />}

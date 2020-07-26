@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { Fragment } from "react";
 import Form from "react-bootstrap/Form";
-import { Field } from "formik";
-import { RadioButton } from "../formComponents/RadioButton";
-import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
 import FormQ from "../formComponents/FormQ";
+import FormC from "../formComponents/FormC";
 
 export const FormFourthStep = (formikProps) => {
-  const [t_autre, setT_autre] = useState("Autre");
-  const { values, errors, touched } = formikProps;
+  const  {item}  = formikProps;
+  let lbl1, lbl2, leg, item_name, item_type;
+  if (item === "1") {
+    lbl1 = "Nom de l'initiative";
+    lbl2 = "Type d'initiative";
+    leg = "Description de l’initiative";
+    item_name = "nom_i";
+    item_type = "type_i";
+  } else {
+    lbl1 = "Nom de l'élément";
+    lbl2 = "Type d'élément";
+    leg = "Description de l’élément";
+    item_name = "nom_d";
+    item_type = "type_d";
+  }
+
   return (
-    <div>
+    <Fragment>
       <Form.Group>
-        <legend>Description de l’initiative</legend>
+        <legend>{leg}</legend>
         <Form.Text className="text-muted">
           Ces renseignements, après vérification éventuelle, seront publics
           figureront dans la base Agorae Map21
@@ -20,100 +32,64 @@ export const FormFourthStep = (formikProps) => {
       <FormQ
         slabel="(max. 30 caractères, mais un code court d’une dizaine de caractères
           est conseillé)"
-        label="Nom de l'initiative"
+        label={lbl1}
         required
-        name="nom_i"
+        name={item_name}
         type="text"
       />
-      <Form.Group controlId="type_iControl">
-       <Form.Label>Type d'initiative</Form.Label>
-        <span>*</span>
-        <RadioButtonGroup
-          id="type_i"
-          value={values.type_i}
-          error={errors.type_i}
-          touched={touched.type_i}
-          key="type_iRadio"
-          className="mb-3"
-        >
-        <Form.Text className="text-muted">
-            (choisir dans la liste ci-dessous , si « autre », merci de préciser)
-          </Form.Text>
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Dissémination"
-            label="Dissémination"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Module de formation"
-            label="Module de formation"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Plateforme de mise en relation territoriale"
-            label="Plateforme de mise en relation territoriale"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Projet de recherche"
-            label="Projet de recherche"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Projet de recherche-action"
-            label="Projet de recherche-action"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Projet du plan de transition d'une organisation"
-            label="Projet du plan de transition d'une organisation"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Projet étudiant"
-            label="Projet étudiant"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Projet étudiant dans le cadre d’une UE"
-            label="Projet étudiant dans le cadre d’une UE"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Projet industriel"
-            label="Projet industriel"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Projet MIND"
-            label="Projet MIND"
-          />
-          <Field
-            component={RadioButton}
-            name="type_i"
-            id="Synergie industrielle"
-            label="Synergie industrielle"
-          />
-          <Field component={RadioButton} name="type_i" id={t_autre} />
-          <Form.Control
-            type="text"
-            name="type_i2t"
-            placeholder="Autre"
-            onChange={(e) => setT_autre(e.target.value)}
-          />
-        </RadioButtonGroup>
-      </Form.Group>
-    </div>
+
+      {item === "1" ? (
+        <FormC
+          label={lbl2}
+          required
+          name={item_type}
+          slabel="(choisir dans la liste ci-dessous , si « autre », merci de préciser)"
+          other
+          place_h="Autre"
+          label_other=""
+          v_other=""
+          options={[
+            { id: "Dissémination", value: "Dissémination" },
+            { id: "Module de formation", value: "Module de formation" },
+            {
+              id: "Plateforme de mise en relation territoriale",
+              value: "Plateforme de mise en relation territoriale",
+            },
+            { id: "Projet de recherche", value: "Projet de recherche" },
+            {
+              id: "Projet de recherche-action",
+              value: "Projet de recherche-action",
+            },
+            {
+              id: "Projet du plan de transition d'une organisation",
+              value: "Projet du plan de transition d'une organisation",
+            },
+            { id: "Projet étudiant", value: "Projet étudiant" },
+            {
+              id: "Projet étudiant dans le cadre d’une UE",
+              value: "Projet étudiant dans le cadre d’une UE",
+            },
+            { id: "Projet industriel", value: "Projet industriel" },
+            { id: "Projet MIND", value: "Projet MIND" },
+            { id: "Synergie industrielle", value: "Synergie industrielle" },
+          ]}
+        />
+      ) : (
+        <FormC
+          label={lbl2}
+          required
+          name="type_i"
+          slabel="(choisir dans la liste ci-dessous , si « autre », merci de préciser)"
+          other
+          place_h="Autre"
+          label_other=""
+          v_other=""
+          options={[
+            { id: "Article scientifique", value: "Article scientifique" },
+            { id: "Classement", value: "Classement" },
+          ]}
+        />
+      )}
+    </Fragment>
   );
 };

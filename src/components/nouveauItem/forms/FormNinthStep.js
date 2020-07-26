@@ -1,12 +1,20 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-import { Field } from "formik";
-import { RadioButton } from "../formComponents/RadioButton";
-import { RadioButtonGroup } from "../formComponents/RadioButtonGroup";
 import FormQ from "../formComponents/FormQ";
+import FormC from "../formComponents/FormC";
 
 export const FormNinthStep = (formikProps) => {
-  const { values, errors, touched} = formikProps;
+  const { item, values } = formikProps;
+  let lbl1, lbl2;
+  if (item === "1") {
+    lbl1 = "Thèmes à créer pour votre initiative ?";
+    lbl2 =
+      "Souhaiteriez-vous pour votre initiative des thèmes ne figurant pas encore dans la page (sous réserve d’acceptation par le groupe administrateur de la cartographie)";
+  } else {
+    lbl1 = "Thèmes à créer pour votre élément ?";
+    lbl2 =
+      "Souhaiteriez-vous pour votre élément des thèmes ne figurant pas encore dans la page (sous réserve d’acceptation par le groupe administrateur de la cartographie)";
+  }
   return (
     <div>
       <Form.Group>
@@ -21,44 +29,22 @@ export const FormNinthStep = (formikProps) => {
         name="themeMap21"
         type="textarea"
       />
-
-      <Form.Group controlId="new_topicsControl">
-        <Form.Label>Thèmes à créer pour votre initiative ?</Form.Label>
-        <Form.Text className="text-muted">
-          Souhaiteriez-vous pour votre initiative des thèmes ne figurant pas
-          encore dans la page (sous réserve d’acceptation par le groupe
-          administrateur de la cartographie){" "}
-        </Form.Text>
-        <RadioButtonGroup
-          id="new_topics"
-          value={values.new_topics}
-          error={errors.new_topics}
-          touched={touched.new_topics}
-          key="new_topicsRadio"
-          className="mb-3"
-        >
-          <Field
-            component={RadioButton}
-            name="new_topics"
-            id="OUI"
-            label="Oui"
-          />
-          <Field
-            component={RadioButton}
-            name="new_topics"
-            id="NON"
-            label="Non"
-          />
-        </RadioButtonGroup>
-      </Form.Group>
+      <FormC
+        label={lbl1}
+        slabel={lbl2}
+        name="new_topics"
+        options={[
+          { id: "OUI", value: "Oui" },
+          { id: "NON", value: "Non" },
+        ]}
+      />
       {values.new_topics.includes("OUI") ? (
         <div>
           <Form.Group>
-            <Form.Label>Thèmes à créer pour votre initiative ? </Form.Label>
-            <Form.Text className="text-muted">
+            <Form.Label>
               Les thèmes doivent être proposés en en anglais, et ne pas dépasser
               25 caractères
-            </Form.Text>
+            </Form.Label>
           </Form.Group>
           <FormQ label="Thème souhaité 1:" name="topic1" type="text" />
           <FormQ
@@ -84,7 +70,6 @@ export const FormNinthStep = (formikProps) => {
             name="cta_topic4"
             type="text"
           />
-
         </div>
       ) : null}
     </div>
