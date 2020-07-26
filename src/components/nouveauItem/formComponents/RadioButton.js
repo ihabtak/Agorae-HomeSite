@@ -5,8 +5,7 @@ export const RadioButton = ({
   field: { name, value, onChange, onBlur },
   id,
   label,
-  className,
-  ...props
+  className
 }) => {
   return (
     <div>
@@ -19,7 +18,6 @@ export const RadioButton = ({
         onChange={onChange}
         onBlur={onBlur}
         className={classNames("radio-button")}
-        {...props}
       />
       <label htmlFor={id}>{label}</label>
     </div>

@@ -9,7 +9,7 @@ export const FormTenthStep = () => {
         <legend>Renseignement complémentaires </legend>
         <Form.Text className="text-muted">
           Ces éléments et commentaires sont destinés à interagir avec le
-          staff-Map21, et ne figureront pas la base
+          staff-Map21, et ne figureront pas la base.
         </Form.Text>
       </Form.Group>
       <FormQ

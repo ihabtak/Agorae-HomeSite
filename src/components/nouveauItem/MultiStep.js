@@ -76,53 +76,37 @@ const MYFORM = styled(Form)`
   .form-group > legend:nth-child(1)
 `;
 
-const renderStep = (step, values, errors, touched) => {
+const renderStep = (step, item, values) => {
   switch (step) {
     case 1:
-      return (
-        <FormFirstStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormFirstStep item={item} />;
     case 2:
-      return (
-        <FormSecondStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormSecondStep item={item} />;
     case 3:
-      return <FormThirdStep values={values} />;
+      return <FormThirdStep values={values} item={item} />;
     case 4:
-      return (
-        <FormFourthStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormFourthStep item={item} />;
     case 5:
-      return <FormFifthStep />;
+      return <FormFifthStep item={item} />;
     case 6:
-      return (
-        <FormSixthStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormSixthStep values={values} item={item} />;
     case 7:
-      return (
-        <FormSeventhStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormSeventhStep values={values} />;
     case 8:
-      return (
-        <FormEighthStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormEighthStep item={item} />;
     case 9:
-      return (
-        <FormNinthStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormNinthStep values={values} item={item} />;
     case 10:
       return <FormTenthStep />;
     default:
-      return (
-        <FormFirstStep values={values} errors={errors} touched={touched} />
-      );
+      return <FormFirstStep />;
   }
 };
 
 export const MultiStep = (props) => {
   const [step, setStep] = useState(1);
   const [multiFormSubmitted, setMultiFormSubmitted] = useState(false);
-
+  const { item } = props;
   function sendEmail(values) {
     var template_id = "template_ZWvpcjq4_clone";
 
@@ -164,7 +148,14 @@ export const MultiStep = (props) => {
     ville: "",
     partenaire_territorial: "",
     partenaire_asso: "",
+    nom_d: "",
+    type_d: "",
+    resume_d: "",
+    dsuite_resume: "",
+    summary_d: "",
+    dconti_summary: "",
     ref_e: "",
+    date_d: "",
     type_livrable: "",
     liv1_intitule: "",
     liv1_adresse: "",
@@ -192,8 +183,9 @@ export const MultiStep = (props) => {
   function ItemForm(props) {
     return (
       <MYFORM onSubmit={props.handleSubmit} className="mx-auto">
-        {renderStep(step, props.values, props.errors, props.touched)}
+        {renderStep(step, item, props.values)}
         <StepButton
+          Ritem={item}
           btnStep={btnStep}
           Rstep={step}
           isSubmitting={props.isSubmitting}
@@ -215,15 +207,15 @@ export const MultiStep = (props) => {
     charte: Yup.bool().oneOf([true], "Vous devez accepter la charte"),
     ci_nom: Yup.string(),
     ci_email: Yup.string().email("*Doit être une adresse e-mail valide"),
-    nom_i: Yup.string().required("*requis"),
-    type_i: Yup.string().required("*requis"),
+    nom_i: Yup.string(),
+    type_i: Yup.string(),
     resume_i: Yup.string(),
     suite_resume: Yup.string(),
     summary_i: Yup.string(),
     conti_summary: Yup.string(),
     status_i: Yup.string(),
     avancee_i: Yup.string(),
-    date_d_i: Yup.string().required("*requis"),
+    date_d_i: Yup.string(),
     date_f_i: Yup.string(),
     projet_industriel: Yup.string(),
     partenaire_industriel: Yup.string(),
@@ -235,7 +227,14 @@ export const MultiStep = (props) => {
     ville: Yup.string(),
     partenaire_territorial: Yup.string(),
     partenaire_asso: Yup.string(),
+    nom_d: Yup.string(),
+    type_d: Yup.string(),
+    resume_d: Yup.string(),
+    dsuite_resume: Yup.string(),
+    summary_d: Yup.string(),
+    dconti_summary: Yup.string(),
     ref_e: Yup.string(),
+    date_d: Yup.string(),
     type_livrable: Yup.string(),
     liv1_intitule: Yup.string(),
     liv1_adresse: Yup.string(),
