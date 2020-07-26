@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import  Home  from './components/home/Home';
 import projetMap21  from './components/projetMap21/projetMap21';
 import  nuageDeTheme  from './components/nuageDeThemes/nuageDeTheme';
-import  NouveauItem  from './components/nouveauItem/NouveauItem';
+import  NouveauItem  from './components/nouveauItem/nouveauItem';
 import { Syllabus } from './components/syllabus/Syllabus';
 import { Guide } from './components/guide/Guide';
 import  Contact  from './components/contact/Contact';
@@ -14,7 +14,6 @@ import i18n from './i18n';
 import NavigationBar from './components/navbar/NavigationBar';
 import {Footer} from './components/footer/Footer';
 import "./App.css";
-//import { Jumbotron } from './components/Jumbotron';
 
 
 class App extends Component {
