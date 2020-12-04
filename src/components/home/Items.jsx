@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Hypertopic from "hypertopic";
 import { USER_API, MAP21_URL, CdcLinks } from "../Constants";
 import Card from "react-bootstrap/Card";
 import CardColumns from "react-bootstrap/CardColumns";
@@ -8,10 +7,9 @@ import ReactPlayer from "react-player/lazy";
 import { translate } from "react-i18next";
 import { ReactComponent as CloudIconSec } from "../../assets/cloud.svg";
 import { ReactComponent as CloudIconFirst } from "../../assets/cloudFirst.svg";
+import notavailable from "../../assets/unnamed.png";
 import Popup from "reactjs-popup";
 import CloudTag from "../nuageDeThemes/CloudTag";
-
-let db = new Hypertopic([USER_API]);
 
 class Items extends Component {
   state = {
@@ -24,86 +22,100 @@ class Items extends Component {
   checkURL(url) {
     return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
   }
+  normalize(obj) {
+    if (!obj.rows) return obj;
+    var rows = obj.rows;
+    var result = {};
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var keys = r.key;
+      var current = result;
+      for (var k = 0; k < keys.length; k++) {
+        if (!current[keys[k]]) current[keys[k]] = {};
+        current = current[keys[k]];
+      }
+      var value = r.value;
+      for (var attribute in value) {
+        if (!current[attribute]) current[attribute] = [];
+        current[attribute].push(value[attribute]);
+      }
+    }
+    return result;
+  }
+  updateItems(data) {
+    for (var corpusId in data) {
+      for (var itemId in data[corpusId]) {
+        var itemCard;
+        itemCard = data[corpusId][itemId];
+        if (itemId !== "user" && itemId !== "name") {
+          itemCard["itemId"] = itemId;
+          itemCard["corpusId"] = corpusId;
+          itemCard["url"] =
+            MAP21_URL +
+            "#" +
+            USER_API +
+            "item/" +
+            itemCard["corpusId"] +
+            "/" +
+            itemCard["itemId"];
+          if (itemCard["image/video"] === undefined) {
+            if (itemCard["image"] === undefined) {
+              itemCard["imageUrl"] = notavailable;
+            } else {
+              itemCard["imageUrl"] = itemCard["image"][0];
+            }
+          } else {
+            if (this.checkURL(itemCard["image/video"][0])) {
+              itemCard["imageUrl"] = itemCard["image/video"][0];
+            } else {
+              itemCard["videoUrl"] = itemCard["image/video"][0];
+            }
+          }
+          if (itemCard["030 résumé:"] === undefined) {
+            itemCard["resume"] = itemCard["035 summary:"][0];
+          } else {
+            if (itemCard["030 résumé:"][0].length > 280) {
+              itemCard["resume"] =
+                itemCard["030 résumé:"][0].substr(0, 250) + "...";
+            } else {
+              itemCard["resume"] = itemCard["030 résumé:"][0];
+            }
+          }
+          if (itemCard["035 summary:"] === undefined) {
+            itemCard["resumeEn"] = itemCard["030 résumé:"][0];
+          } else {
+            if (itemCard["035 summary:"][0].length > 280) {
+              itemCard["resumeEn"] =
+                itemCard["035 summary:"][0].substr(0, 250) + "...";
+            } else {
+              itemCard["resumeEn"] = itemCard["035 summary:"][0];
+            }
+          }
+          // eslint-disable-next-line
+          this.setState(function (prevState, props) {
+            var joined = prevState.Icdc.concat(itemCard);
+            return { Icdc: joined };
+          });
+        }
+      }
+    }
+  }
 
   async componentDidMount() {
     document.title = "Home";
     // les items avec le statut Agoare coup-de-coeur
-    await fetch(USER_API + CdcLinks[0], { signal: this.abortController.signal })
-      .then((results) => results.json())
-      .then((data) => {
-        this.setState(function (prevState, props) {
-          var joined = prevState.items.concat(data.rows);
-          return { items: joined };
+    CdcLinks.map(async (corpus, idx) => {
+      await fetch(USER_API + corpus, { signal: this.abortController.signal })
+        .then((results) => results.json())
+        .then((data) => {
+          data = this.normalize(data);
+          this.updateItems(data);
+        })
+        .catch((err) => {
+          if (err.name === "AbortError") return;
+          throw err;
         });
-      })
-      .catch((err) => {
-        if (err.name === "AbortError") return;
-        throw err;
-      });
-    // les items avec le statut Agoare coup-de-cœur
-    await fetch(USER_API + CdcLinks[1], { signal: this.abortController.signal })
-      .then((results) => results.json())
-      .then((data) => {
-        this.setState(function (prevState, props) {
-          var joined = prevState.items.concat(data.rows);
-          return { items: joined };
-        });
-      })
-      .catch((err) => {
-        if (err.name === "AbortError") return;
-        throw err;
-      });
-    //
-    if (this.state.items.length > 0) {
-      this.state.items.map(async (item) => {
-        await db
-          .getView("item/" + item["key"][0] + "/" + item["id"])
-          .then((data) => {
-            data = data[item["key"][0]][item["id"]];
-            data["itemId"] = item["id"];
-            data["corpusId"] = item["key"][0];
-            data["url"] =
-              MAP21_URL +
-              "#" +
-              USER_API +
-              "item/" +
-              data["corpusId"] +
-              "/" +
-              data["itemId"];
-            if (data["image/video"] === undefined) {
-              if (data["image"] === undefined) {
-                data["imageUrl"] = "lien image pour item sans image/vid ";
-              } else {
-                data["imageUrl"] = data["image"][0];
-              }
-            } else {
-              if (this.checkURL(data["image/video"][0])) {
-                data["imageUrl"] = data["image/video"][0];
-              } else {
-                data["videoUrl"] = data["image/video"][0];
-              }
-            }
-            if (data["030 résumé:"][0].length > 280) {
-              data["resume"] = data["030 résumé:"][0].substr(0, 250) + "...";
-            } else {
-              data["resume"] = data["030 résumé:"][0];
-            }
-            if (data["035 summary:"][0].length > 280) {
-              data["resumeEn"] = data["035 summary:"][0].substr(0, 250) + "...";
-            } else {
-              data["resumeEn"] = data["035 summary:"][0];
-            }
-            this.setState(function (prevState, props) {
-              var joined = prevState.Icdc.concat(data);
-              return { Icdc: joined };
-            });
-          })
-          .catch((err) => {
-            if (err.name === "AbortError") return;
-            throw err;
-          });
-      });
-    }
+    });
   }
 
   componentWillUnmount() {

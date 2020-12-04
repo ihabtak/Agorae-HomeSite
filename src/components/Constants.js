@@ -7,8 +7,8 @@ export const ViewpointIDs = ["2ba774a7cbd1e14fa45e57ba0001070c"
                             ,"2ba774a7cbd1e14fa45e57ba00011c69"
                             ,"7f5df3a657e64ba1c44b7a30a3003f65"
                         ];
-export const CdcLinks = ["attribute/2ba774a7cbd1e14fa45e57ba0000f2ac/300%20statut%20Agorae%3A/coup-de-coeur",
-                         "attribute/2ba774a7cbd1e14fa45e57ba0000fa79/300%20statut%20Agorae%3A/coup-de-c%C5%93ur"
+export const CdcLinks = ["corpus/2ba774a7cbd1e14fa45e57ba0000f2ac",
+                         "corpus/2ba774a7cbd1e14fa45e57ba0000fa79"
                         ];
 export const ViewpointCC = ["2ba774a7cbd1e14fa45e57ba0001070c"
                             ,"7f5df3a657e64ba1c44b7a30a3016915"
