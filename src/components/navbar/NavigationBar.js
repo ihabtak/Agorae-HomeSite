@@ -12,6 +12,7 @@ const Styles = styled.div`
     box-shadow: 2.5px 2.5px 2.5px 0px rgba(0, 0, 0, 0.4);
   }
   .navbar {
+    z-index: 1;
     font-family: Trebuchet MS;
   }
   .nav-link.active {
