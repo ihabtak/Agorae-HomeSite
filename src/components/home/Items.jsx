@@ -101,7 +101,7 @@ class Items extends Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     document.title = "Home";
     // les items avec le statut Agoare coup-de-coeur
     CdcLinks.map(async (corpus, idx) => {
