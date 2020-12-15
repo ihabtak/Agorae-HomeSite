@@ -14,9 +14,11 @@ import i18n from './i18n';
 import NavigationBar from './components/navbar/NavigationBar';
 import {Footer} from './components/footer/Footer';
 import "./App.css";
+import StyledContentLoader from 'styled-content-loader'
 
 
 class App extends Component {
+  
   render() {
     return (
       <React.Fragment>

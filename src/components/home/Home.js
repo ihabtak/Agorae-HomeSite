@@ -25,6 +25,10 @@ const Styles = styled.div`
         font-size: 2.5rem;
         color: rgba(128,128,128,1);
     }
+    p {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
 `;
 
 const Home = ({ t }) => (

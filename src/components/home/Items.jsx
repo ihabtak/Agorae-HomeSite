@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { USER_API, MAP21_URL, CdcLinks } from "../Constants";
+import CardDeck from "react-bootstrap/CardDeck";
+import "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import CardColumns from "react-bootstrap/CardColumns";
+import {  Row, Col } from "reactstrap";
 import Button from "react-bootstrap/Button";
 import ReactPlayer from "react-player/lazy";
 import { translate } from "react-i18next";
@@ -10,18 +12,28 @@ import { ReactComponent as CloudIconFirst } from "../../assets/cloudFirst.svg";
 import notavailable from "../../assets/unnamed.png";
 import Popup from "reactjs-popup";
 import CloudTag from "../nuageDeThemes/CloudTag";
+import "./Items.css";
 
 class Items extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
   state = {
-    items: [],
+    isToggleOn: true,
+    checked: true,
+    currentDateTime: Date().toLocaleString(),
+    count: 0,
     Icdc: [],
+    Icdc2: [],
+    sortType: "asc",
   };
 
   abortController = new AbortController();
-
   checkURL(url) {
     return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
   }
+
   normalize(obj) {
     if (!obj.rows) return obj;
     var rows = obj.rows;
@@ -48,6 +60,7 @@ class Items extends Component {
         var itemCard;
         itemCard = data[corpusId][itemId];
         if (itemId !== "user" && itemId !== "name") {
+          this.state.count += 1;
           itemCard["itemId"] = itemId;
           itemCard["corpusId"] = corpusId;
           itemCard["url"] =
@@ -72,7 +85,12 @@ class Items extends Component {
             }
           }
           if (itemCard["030 résumé:"] === undefined) {
-            itemCard["resume"] = itemCard["035 summary:"][0];
+            if (itemCard["035 summary:"][0].length > 280) {
+              itemCard["resume"] =
+                itemCard["035 summary:"][0].substr(0, 250) + "...";
+            } else {
+              itemCard["resume"] = itemCard["035 summary:"][0];
+            }
           } else {
             if (itemCard["030 résumé:"][0].length > 280) {
               itemCard["resume"] =
@@ -82,7 +100,12 @@ class Items extends Component {
             }
           }
           if (itemCard["035 summary:"] === undefined) {
-            itemCard["resumeEn"] = itemCard["030 résumé:"][0];
+            if (itemCard["030 résumé:"][0].length > 280) {
+              itemCard["resumeEn"] =
+                itemCard["030 résumé:"][0].substr(0, 250) + "...";
+            } else {
+              itemCard["resumeEn"] = itemCard["030 résumé:"][0];
+            }
           } else {
             if (itemCard["035 summary:"][0].length > 280) {
               itemCard["resumeEn"] =
@@ -96,11 +119,14 @@ class Items extends Component {
             var joined = prevState.Icdc.concat(itemCard);
             return { Icdc: joined };
           });
+          this.setState(function (prevState, props) {
+            var joined = prevState.Icdc2.concat(itemCard);
+            return { Icdc2: joined };
+          });
         }
       }
     }
   }
-
   componentDidMount() {
     document.title = "Home";
     // les items avec le statut Agoare coup-de-coeur
@@ -122,102 +148,304 @@ class Items extends Component {
     this.abortController.abort();
   }
 
+  handleClick() {
+    if (this.state.checked === true) {
+      this.state.checked = false;
+    } else {
+      this.state.checked = true;
+    }
+    this.setState((prevState) => ({
+      isToggleOn: !prevState.isToggleOn,
+    }));
+  }
+
   render() {
+    //date
+    var today = new Date(),
+      date =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+
     const { t } = this.props;
+
+    //Ordering
+    const { Icdc,Icdc2 } = this.state;
+   
+    const sorted = Icdc.sort((a, b) => {
+      return b["500 collaborative evaluation: "][0].localeCompare(
+        a["500 collaborative evaluation: "][0]
+      );
+    });
+    const datesorted = Icdc2.sort((a, b) => {
+      return b["400 contribution date:"][0]
+        .split("/")
+        .reverse()
+        .join()
+        .localeCompare(
+          a["400 contribution date:"][0].split("/").reverse().join()
+        );
+    });
     return (
-      <CardColumns>
-        {this.state.Icdc.map((item, idx) => (
-          <Card bg="light" key={idx} style={{ flexGrow: 4 }}>
-            {item["image/video"] === undefined ? (
-              <Card.Img variant="top" src={item["imageUrl"]} />
-            ) : item["videoUrl"] === undefined ? (
-              <Card.Img variant="top" src={item["imageUrl"]} />
-            ) : (
-              <ReactPlayer
-                controls={true}
-                width="100%"
-                height="80%"
-                url={item["videoUrl"]}
-              />
-            )}
-
-            <Card.Body>
-              {item["010 nom de l'initiative:"] === undefined ? (
-                <Card.Title>{item["005 nom de l’élément:"][0]} </Card.Title>
-              ) : (
-                <Card.Title>{item["010 nom de l'initiative:"][0]} </Card.Title>
-              )}
-              {item["048 organisation:"] === undefined ? (
-                <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
-              ) : (
-                <Card.Subtitle className="mb-2 text-muted">
-                  {item["048 organisation:"][0]}
-                </Card.Subtitle>
-              )}
-              <Card.Text>{item[t("home.resume")]}</Card.Text>
-            </Card.Body>
-            <Card.Footer>
-              <Button variant="primary" href={item["url"]}>
-                {t("home.card-plus")}
-              </Button>
-              <Popup
-                trigger={
-                  <Button variant="primary">
-                    {" "}
-                    <CloudIconFirst />
-                  </Button>
-                }
-                modal
-                nested
-              >
-                {(close) => (
-                  <div className="modalPop">
-                    <button className="close" onClick={close}>
-                      &times;
-                    </button>
-                    <div className="header">
-                      Nuage contextuel 1:{" "}
-                      {item["010 nom de l'initiative:"] === undefined
-                        ? item["005 nom de l’élément:"][0]
-                        : item["010 nom de l'initiative:"][0]}
-                    </div>
-                    <div className="content">
-                      <CloudTag cc item={item} r1 />
-                    </div>
-                  </div>
+      
+      <div class="content">
+        <Row>
+          <Col>
+          
+            <div onChange={this.onChangeValue}>
+              <button className="btn btn-dark" onClick={this.handleClick}>
+                {this.state.isToggleOn ? t("home.dateorder") : t("home.rankorder")}
+              </button>
+            </div>
+          </Col>
+          <Col>
+            <p class="text-right">
+              {" "}
+              {t("home.quantity")} {this.state.count}
+            </p>
+          </Col>
+        </Row>
+        {this.state.checked === true ? (
+          <CardDeck>
+            {sorted.map((item, idx) => (
+              <Card bg="light" key={idx} style={{ flexGrow: 4 }}>
+                {item["image/video"] === undefined ? (
+                  <Card.Img variant="top" src={item["imageUrl"]} />
+                ) : item["videoUrl"] === undefined ? (
+                  <Card.Img variant="top" src={item["imageUrl"]} />
+                ) : (
+                  <ReactPlayer
+                    controls={true}
+                    width="100%"
+                    height="30%"
+                    url={item["videoUrl"]}
+                  />
                 )}
-              </Popup>
-              <Popup
-                trigger={
-                  <Button variant="primary">
-                    <CloudIconSec />
-                  </Button>
-                }
-                modal
-                nested
-              >
-                {(close) => (
-                  <div className="modalPop">
-                    <button className="close" onClick={close}>
-                      &times;
-                    </button>
-                    <div className="header">
-                      Nuage contextuel 2:{" "}
-                      {item["010 nom de l'initiative:"] === undefined
-                        ? item["005 nom de l’élément:"][0]
-                        : item["010 nom de l'initiative:"][0]}
-                    </div>
 
-                    <div className="content">
-                      <CloudTag cc item={item} r2 />
-                    </div>
+                <Card.Body>
+            
+                  <Row>
+                    <Col sm={8}>
+                      {item["010 nom de l'initiative:"] === undefined ? (
+                        <Card.Title>
+                          {item["005 nom de l’élément:"][0]}{" "}
+                        </Card.Title>
+                      ) : (
+                        <Card.Title>
+                          {item["010 nom de l'initiative:"][0]}
+                        </Card.Title>
+                      )}
+                    </Col>
+                    <Col sm={4}>
+                      <div class="text-right">
+                        {item["500 collaborative evaluation: "] ===
+                        undefined ? (
+                          <span class="rank">No rang</span>
+                        ) : (
+                          <span class="rank"> {idx + 1} </span>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
+
+                  {item["048 organisation:"] === undefined ? (
+                    <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
+                  ) : (
+                    <Card.Subtitle className="mb-2 text-muted">
+                      {item["048 organisation:"][0]}
+                    </Card.Subtitle>
+                  )}
+                  <Card.Text>{item[t("home.resume")]}</Card.Text>
+                  <div class="text-right">
+                    {item["400 contribution date:"] === undefined ? (
+                      <span class="itemDate"> No date </span>
+                    ) : (
+                      <span class="itemDate">
+                        {item["400 contribution date:"][0]}
+                      </span>
+                    )}
                   </div>
+                </Card.Body>
+
+                <Card.Footer>
+                  <Button variant="primary" href={item["url"]}>
+                    {t("home.card-plus")}
+                  </Button>
+                  <Popup
+                    trigger={
+                      <Button variant="primary">
+                        {" "}
+                        <CloudIconFirst />
+                      </Button>
+                    }
+                    modal
+                    nested
+                  >
+                    {(close) => (
+                      <div className="modalPop">
+                        <button className="close" onClick={close}>
+                          &times;
+                        </button>
+                        <div className="header">
+                          Nuage contextuel 1:{" "}
+                          {item["010 nom de l'initiative:"] === undefined
+                            ? item["005 nom de l’élément:"][0]
+                            : item["010 nom de l'initiative:"][0]}
+                        </div>
+                        <div className="content">
+                          <CloudTag cc item={item} r1 />
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+                  <Popup
+                    trigger={
+                      <Button variant="primary">
+                        <CloudIconSec />
+                      </Button>
+                    }
+                    modal
+                    nested
+                  >
+                    {(close) => (
+                      <div className="modalPop">
+                        <button className="close" onClick={close}>
+                          &times;
+                        </button>
+                        <div className="header">
+                          Nuage contextuel 2:{" "}
+                          {item["010 nom de l'initiative:"] === undefined
+                            ? item["005 nom de l’élément:"][0]
+                            : item["010 nom de l'initiative:"][0]}
+                        </div>
+
+                        <div className="content">
+                          <CloudTag cc item={item} r2 />
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+                </Card.Footer>
+              </Card>
+            ))}
+          </CardDeck>
+        ) : (
+          <CardDeck>
+            {datesorted.map((item, idx) => (
+              <Card bg="light" key={idx} style={{ flexGrow: 4 }}>
+                {item["image/video"] === undefined ? (
+                  <Card.Img variant="top" src={item["imageUrl"]} />
+                ) : item["videoUrl"] === undefined ? (
+                  <Card.Img variant="top" src={item["imageUrl"]} />
+                ) : (
+                  <ReactPlayer
+                    controls={true}
+                    width="100%"
+                    height="30%"
+                    url={item["videoUrl"]}
+                  />
                 )}
-              </Popup>
-            </Card.Footer>
-          </Card>
-        ))}
-      </CardColumns>
+
+                <Card.Body>
+                  <Row>
+                    <Col sm={8}>
+                      {item["010 nom de l'initiative:"] === undefined ? (
+                        <Card.Title>
+                          {item["005 nom de l’élément:"][0]}{" "}
+                        </Card.Title>
+                      ) : (
+                        <Card.Title>
+                          {item["010 nom de l'initiative:"][0]}
+                        </Card.Title>
+                      )}
+                    </Col>
+                  </Row>
+
+                  {item["048 organisation:"] === undefined ? (
+                    <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
+                  ) : (
+                    <Card.Subtitle className="mb-2 text-muted">
+                      {item["048 organisation:"][0]}
+                    </Card.Subtitle>
+                  )}
+                  <Card.Text>{item[t("home.resume")]}</Card.Text>
+                  <div class="text-right">
+                    {item["400 contribution date:"] === undefined ? (
+                      <span class="itemDate"> No date </span>
+                    ) : (
+                      <span class="itemDate">
+                        {item["400 contribution date:"][0]}
+                      </span>
+                    )}
+                  </div>
+                </Card.Body>
+
+                <Card.Footer>
+                  <Button variant="primary" href={item["url"]}>
+                    {t("home.card-plus")}
+                  </Button>
+                  <Popup
+                    trigger={
+                      <Button variant="primary">
+                        {" "}
+                        <CloudIconFirst />
+                      </Button>
+                    }
+                    modal
+                    nested
+                  >
+                    {(close) => (
+                      <div className="modalPop">
+                        <button className="close" onClick={close}>
+                          &times;
+                        </button>
+                        <div className="header">
+                          Nuage contextuel 1:{" "}
+                          {item["010 nom de l'initiative:"] === undefined
+                            ? item["005 nom de l’élément:"][0]
+                            : item["010 nom de l'initiative:"][0]}
+                        </div>
+                        <div className="content">
+                          <CloudTag cc item={item} r1 />
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+                  <Popup
+                    trigger={
+                      <Button variant="primary">
+                        <CloudIconSec />
+                      </Button>
+                    }
+                    modal
+                    nested
+                  >
+                    {(close) => (
+                      <div className="modalPop">
+                        <button className="close" onClick={close}>
+                          &times;
+                        </button>
+                        <div className="header">
+                          Nuage contextuel 2:{" "}
+                          {item["010 nom de l'initiative:"] === undefined
+                            ? item["005 nom de l’élément:"][0]
+                            : item["010 nom de l'initiative:"][0]}
+                        </div>
+
+                        <div className="content">
+                          <CloudTag cc item={item} r2 />
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+                </Card.Footer>
+              </Card>
+            ))}
+          </CardDeck>
+        )}
+      </div>
     );
   }
 }
