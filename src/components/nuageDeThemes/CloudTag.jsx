@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Hypertopic from "hypertopic";
 import { USER_API, MAP21_URL, ViewpointIDs, ViewpointCC } from "../Constants";
 import "./CloudTag.css";
-import { BoxLoading } from "react-loadingg";
+import { SolarSystemLoading } from "react-loadingg";
 
 let db = new Hypertopic([USER_API]);
 
@@ -316,9 +316,11 @@ class CloudTag extends Component {
         tr1: newR1,
         tr2: newR2,
       });
-      setTimeout(() => {  this.setState({
-        ccIsLoading: false,
-      }); }, 6000);
+      setTimeout(() => {
+        this.setState({
+          ccIsLoading: false,
+        });
+      }, 6000);
     }
   }
   abortController = new AbortController();
@@ -367,7 +369,6 @@ class CloudTag extends Component {
   componentWillUnmount() {
     this.ismounted = false;
     this.abortController.abort();
-
   }
 
   render() {
@@ -406,18 +407,20 @@ class CloudTag extends Component {
           </a>
         );
       }
-
     });
-    if(this.props.item){
-      if (this.state.ccIsLoading ) {
-        return (<div className="cloudloading"><BoxLoading /></div>);
+    if (this.props.item) {
+      if (this.state.ccIsLoading) {
+        return (
+          <div className="cloudloading">
+            <SolarSystemLoading />
+          </div>
+        );
       } else {
         return <div className="cloudtags">{tags}</div>;
       }
-    }else{
+    } else {
       return <div className="cloudtags">{tags}</div>;
     }
-    
   }
 }
 

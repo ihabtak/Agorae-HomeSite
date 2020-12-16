@@ -3,7 +3,7 @@ import { USER_API, MAP21_URL, CdcLinks } from "../Constants";
 import CardDeck from "react-bootstrap/CardDeck";
 import "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import {  Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import Button from "react-bootstrap/Button";
 import ReactPlayer from "react-player/lazy";
 import { translate } from "react-i18next";
@@ -60,7 +60,10 @@ class Items extends Component {
         var itemCard;
         itemCard = data[corpusId][itemId];
         if (itemId !== "user" && itemId !== "name") {
-          this.state.count += 1;
+          this.setState(function (prevState, props) {
+            var newcount = prevState.count + 1;
+            return { count: newcount };
+          });
           itemCard["itemId"] = itemId;
           itemCard["corpusId"] = corpusId;
           itemCard["url"] =
@@ -119,6 +122,7 @@ class Items extends Component {
             var joined = prevState.Icdc.concat(itemCard);
             return { Icdc: joined };
           });
+          // eslint-disable-next-line
           this.setState(function (prevState, props) {
             var joined = prevState.Icdc2.concat(itemCard);
             return { Icdc2: joined };
@@ -150,9 +154,13 @@ class Items extends Component {
 
   handleClick() {
     if (this.state.checked === true) {
-      this.state.checked = false;
+      this.setState({
+        checked: false,
+      });
     } else {
-      this.state.checked = true;
+      this.setState({
+        checked: true,
+      });
     }
     this.setState((prevState) => ({
       isToggleOn: !prevState.isToggleOn,
@@ -160,20 +168,10 @@ class Items extends Component {
   }
 
   render() {
-    //date
-    var today = new Date(),
-      date =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
-
     const { t } = this.props;
-
     //Ordering
-    const { Icdc,Icdc2 } = this.state;
-   
+    const { Icdc, Icdc2 } = this.state;
+
     const sorted = Icdc.sort((a, b) => {
       return b["500 collaborative evaluation: "][0].localeCompare(
         a["500 collaborative evaluation: "][0]
@@ -189,14 +187,14 @@ class Items extends Component {
         );
     });
     return (
-      
       <div class="content">
         <Row>
           <Col>
-          
             <div onChange={this.onChangeValue}>
               <button className="btn btn-dark" onClick={this.handleClick}>
-                {this.state.isToggleOn ? t("home.dateorder") : t("home.rankorder")}
+                {this.state.isToggleOn
+                  ? t("home.dateorder")
+                  : t("home.rankorder")}
               </button>
             </div>
           </Col>
@@ -225,7 +223,6 @@ class Items extends Component {
                 )}
 
                 <Card.Body>
-            
                   <Row>
                     <Col sm={8}>
                       {item["010 nom de l'initiative:"] === undefined ? (

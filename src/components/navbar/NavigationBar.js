@@ -80,10 +80,26 @@ const NavigationBar = ({ t }) => (
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <a href="https://kumu.io/map21/map21syllabus" class="nav-link" eventKey="5" target="_blank"> {t("navbar.syllabus")} </a>
+            <a
+              href="https://kumu.io/map21/map21syllabus"
+              class="nav-link"
+              eventKey="5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("navbar.syllabus")}
+            </a>
           </Nav.Item>
           <Nav.Item>
-            <a href={t("home.link")} class="nav-link" eventKey="5" target="_blank"> {t("navbar.guide")} </a>
+            <a
+              href={t("home.link")}
+              class="nav-link"
+              eventKey="6"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("navbar.guide")}
+            </a>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="7" as={Link} to="/contact">
