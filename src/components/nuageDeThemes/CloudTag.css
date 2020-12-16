@@ -1,12 +1,108 @@
-.cloudtags{
-    font-family: Trebuchet MS;
-    color: black;
-    text-align: center;
-    
+.cloudtags {
+  font-family: Trebuchet MS;
+  color: black;
+  text-align: center;
 }
-.cloudtags a{
-    font-family: Trebuchet MS;
-    color: black;
-    margin: 0.65rem;
-   
+.cloudtags a {
+  font-family: Trebuchet MS;
+  color: black;
+  margin: 0.65rem;
+}
+@-webkit-keyframes anvil {
+  0% {
+   transform:scale(1) translateY(0);
+   opacity:0;
+   box-shadow:0 0 0 hsla(0,0%,94.5%,0)
+  }
+  1% {
+   transform:scale(.96) translateY(10px);
+   opacity:0;
+   box-shadow:0 0 0 hsla(0,0%,94.5%,0)
+  }
+  to {
+   transform:scale(1) translateY(0);
+   opacity:1;
+   box-shadow:0 0 500px hsla(0,0%,94.5%,0)
+  }
+ }
+ @keyframes anvil {
+  0% {
+   transform:scale(1) translateY(0);
+   opacity:0;
+   box-shadow:0 0 0 hsla(0,0%,94.5%,0)
+  }
+  1% {
+   transform:scale(.96) translateY(10px);
+   opacity:0;
+   box-shadow:0 0 0 hsla(0,0%,94.5%,0)
+  }
+  to {
+   transform:scale(1) translateY(0);
+   opacity:1;
+   box-shadow:0 0 500px hsla(0,0%,94.5%,0)
+  }
+ }
+.popup-content {
+  -moz-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards; /* Firefox */
+  -webkit-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards; /* Safari and Chrome */
+  -o-animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards; /* Opera */
+  animation: anvil 0.3s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
+  margin: auto;
+  background: rgb(255, 255, 255);
+  width: 90%;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+.cloudloading{
+  margin: 33rem 0rem;
+}
+
+.popup-arrow {
+  color: rgb(255, 255, 255);
+}
+[role="tooltip"].popup-content {
+  width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+}
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+[data-popup="tooltip"].popup-overlay {
+  background: transparent;
+}
+.modalPop {
+  font-size: 12px;
+}
+.modalPop > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 5px;
+}
+.modalPop > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
+.modalPop > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.modalPop > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
 }

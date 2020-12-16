@@ -3,6 +3,10 @@
       "title": "Welcome on the Agorae-Map21 platform",
       "content": "Agorae-Map21 is a common mapping device for a generic co-built knowledge map about transitions. This generic scheme is adaptable to specific requirements of each organisation facing transition goals.",
       "card-plus": "More",
-      "resume": "resumeEn"
+      "resume": "resumeEn",
+      "rankorder": "Sort by rank",
+      "dateorder": "Sort by date",
+      "quantity": "number of items contributed",
+      "link": "https://kumu.io/map21/map21faq-en"
     }
-}
+ }

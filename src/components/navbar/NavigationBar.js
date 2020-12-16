@@ -12,6 +12,7 @@ const Styles = styled.div`
     box-shadow: 2.5px 2.5px 2.5px 0px rgba(0, 0, 0, 0.4);
   }
   .navbar {
+    z-index: 1;
     font-family: Trebuchet MS;
   }
   .nav-link.active {
@@ -79,14 +80,26 @@ const NavigationBar = ({ t }) => (
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="5" as={Link} to="/syllabus">
+            <a
+              href="https://kumu.io/map21/map21syllabus"
+              class="nav-link"
+              eventKey="5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t("navbar.syllabus")}
-            </Nav.Link>
+            </a>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="6" as={Link} to="/guide">
+            <a
+              href={t("home.link")}
+              class="nav-link"
+              eventKey="6"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t("navbar.guide")}
-            </Nav.Link>
+            </a>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="7" as={Link} to="/contact">
