@@ -187,7 +187,7 @@ class Items extends Component {
         );
     });
     return (
-      <div class="content">
+      <div className="content">
         <Row>
           <Col>
             <div onChange={this.onChangeValue}>
@@ -199,7 +199,7 @@ class Items extends Component {
             </div>
           </Col>
           <Col>
-            <p class="text-right">
+            <p className="text-right">
               {" "}
               {t("home.quantity")} {this.state.count}
             </p>
@@ -236,12 +236,12 @@ class Items extends Component {
                       )}
                     </Col>
                     <Col sm={4}>
-                      <div class="text-right">
+                      <div className="text-right">
                         {item["500 collaborative evaluation: "] ===
                         undefined ? (
-                          <span class="rank">No rang</span>
+                          <span className="rank">No rang</span>
                         ) : (
-                          <span class="rank"> {idx + 1} </span>
+                          <span className="rank"> {idx + 1} </span>
                         )}
                       </div>
                     </Col>
@@ -255,11 +255,11 @@ class Items extends Component {
                     </Card.Subtitle>
                   )}
                   <Card.Text>{item[t("home.resume")]}</Card.Text>
-                  <div class="text-right">
+                  <div className="text-right">
                     {item["400 contribution date:"] === undefined ? (
-                      <span class="itemDate"> No date </span>
+                      <span className="itemDate"> No date </span>
                     ) : (
-                      <span class="itemDate">
+                      <span className="itemDate">
                         {item["400 contribution date:"][0]}
                       </span>
                     )}
@@ -368,11 +368,11 @@ class Items extends Component {
                     </Card.Subtitle>
                   )}
                   <Card.Text>{item[t("home.resume")]}</Card.Text>
-                  <div class="text-right">
+                  <div className="text-right">
                     {item["400 contribution date:"] === undefined ? (
-                      <span class="itemDate"> No date </span>
+                      <span className="itemDate"> No date </span>
                     ) : (
-                      <span class="itemDate">
+                      <span className="itemDate">
                         {item["400 contribution date:"][0]}
                       </span>
                     )}
