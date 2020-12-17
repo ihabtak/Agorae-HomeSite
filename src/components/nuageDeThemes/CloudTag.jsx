@@ -43,7 +43,7 @@ class CloudTag extends Component {
       var r2List = this.state.r2;
       if (nb === 1) {
         if (!(topicName in r1List)) {
-          r1List[topicName] = { topics: [], size: 0 };
+          r1List[topicName] = { topics: [], size: 1 };
           r1List[topicName].topics.push({
             viewpointID: viewpointId,
             topicID: topicId,
@@ -60,7 +60,7 @@ class CloudTag extends Component {
       }
 
       if (!(topicName in r2List)) {
-        r2List[topicName] = { topics: [], size: 0 };
+        r2List[topicName] = { topics: [], size: 1 };
         r2List[topicName].topics.push({
           viewpointID: viewpointId,
           topicID: topicId,
@@ -85,130 +85,156 @@ class CloudTag extends Component {
       var itemList = {};
       if (item.topic && this.ismounted) {
         var topics = item.topic;
-
         topics.map(async (topic, idx) => {
-          var topicData = await db.getView(
-            "topic/" + topic.viewpoint + "/" + topic.id
-          );
-
-          var topicOb = this.normalize(topicData);
-
-          var topicName = topicOb[topic.viewpoint][topic.id].name[0];
-          this.updateList(topic.viewpoint, topic.id, topicName, 1);
-          var narrower = topicOb[topic.viewpoint][topic.id].narrower;
-          var items = topicOb[topic.viewpoint][topic.id].item;
-          if (narrower && this.ismounted) {
-            if (narrower.length > 0) {
-              // eslint-disable-next-line
-              narrower.map((childTopic) => {
-                this.updateList(
-                  topic.viewpoint,
-                  childTopic.id,
-                  childTopic.name,
-                  1
-                );
-              });
-            }
-          }
-
-          if (items.length > 0 && this.ismounted) {
-            items.map(async (item) => {
-              var itemUrl = "item/" + item.corpus + "/" + item.id;
-              if (!(itemUrl in itemList)) {
-                itemList[itemUrl] = { size: 1 };
-                var itemData = await db.getView(itemUrl);
-                itemData = this.normalize(itemData);
-                itemData = itemData[item.corpus][item.id];
-                if (itemData.topic && this.ismounted) {
-                  var topics1 = itemData.topic;
-
-                  topics1.map(async (topic, idx) => {
-                    var topicData1 = await db.getView(
-                      "topic/" + topic.viewpoint + "/" + topic.id
+          if (this.isTopicInCCViewpoints(topic.id)) {
+            var topicData = await db.getView(
+              "topic/" + topic.viewpoint + "/" + topic.id
+            );
+            var topicOb = this.normalize(topicData);
+            var topicName = topicOb[topic.viewpoint][topic.id].name[0];
+            this.updateList(topic.viewpoint, topic.id, topicName, 1);
+            var narrower = topicOb[topic.viewpoint][topic.id].narrower;
+            var items = topicOb[topic.viewpoint][topic.id].item;
+            if (narrower && this.ismounted) {
+              if (narrower.length > 0) {
+                // eslint-disable-next-line
+                narrower.map((childTopic) => {
+                  if (this.isTopicInCCViewpoints(childTopic.id)) {
+                    this.updateList(
+                      topic.viewpoint,
+                      childTopic.id,
+                      childTopic.name,
+                      1
                     );
+                  }
+                });
+              }
+            }
 
-                    var topicOb1 = this.normalize(topicData1);
+            if (items.length > 0 && this.ismounted) {
+              items.map(async (item) => {
+                var itemUrl = "item/" + item.corpus + "/" + item.id;
+                if (!(itemUrl in itemList)) {
+                  itemList[itemUrl] = { size: 1 };
+                  var itemData = await db.getView(itemUrl);
+                  itemData = this.normalize(itemData);
+                  itemData = itemData[item.corpus][item.id];
+                  if (itemData.topic && this.ismounted) {
+                    var topics1 = itemData.topic;
 
-                    if (
-                      !(topicOb1[topic.viewpoint][topic.id].name === undefined)
-                    ) {
-                      var topicName1 =
-                        topicOb1[topic.viewpoint][topic.id].name[0];
-                      this.updateList(topic.viewpoint, topic.id, topicName1, 1);
-                      var narrower1 =
-                        topicOb1[topic.viewpoint][topic.id].narrower;
-                      var items1 = topicOb1[topic.viewpoint][topic.id].item;
-                      if (narrower1 && this.ismounted) {
-                        if (narrower1.length > 0) {
-                          // eslint-disable-next-line
-                          narrower1.map((childTopic) => {
-                            this.updateList(
-                              topic.viewpoint,
-                              childTopic.id,
-                              childTopic.name,
-                              2
-                            );
-                          });
-                        }
-                      }
+                    topics1.map(async (topic, idx) => {
+                      if (this.isTopicInCCViewpoints(topic.id)) {
+                        var topicData1 = await db.getView(
+                          "topic/" + topic.viewpoint + "/" + topic.id
+                        );
 
-                      if (items1.length > 0 && this.ismounted) {
-                        items1.map(async (item) => {
-                          var itemUrl1 = "item/" + item.corpus + "/" + item.id;
-                          if (!(itemUrl1 in itemList)) {
-                            itemList[itemUrl1] = { size: 1 };
-                            var itemData1 = await db.getView(itemUrl1);
-                            itemData1 = this.normalize(itemData1);
-                            itemData1 = itemData1[item.corpus][item.id];
-                            if (itemData1.topic && this.ismounted) {
-                              var topics2 = itemData1.topic;
-                              topics2.map(async (topic, idx) => {
-                                var topicData2 = await db.getView(
-                                  "topic/" + topic.viewpoint + "/" + topic.id
-                                );
+                        var topicOb1 = this.normalize(topicData1);
 
-                                var topicOb2 = this.normalize(topicData2);
-                                if (
-                                  !(
-                                    topicOb2[topic.viewpoint][topic.id].name ===
-                                    undefined
-                                  )
-                                ) {
-                                  var topicName2 =
-                                    topicOb2[topic.viewpoint][topic.id].name[0];
+                        if (
+                          !(
+                            topicOb1[topic.viewpoint][topic.id].name ===
+                            undefined
+                          )
+                        ) {
+                          var topicName1 =
+                            topicOb1[topic.viewpoint][topic.id].name[0];
+                          this.updateList(
+                            topic.viewpoint,
+                            topic.id,
+                            topicName1,
+                            1
+                          );
+                          var narrower1 =
+                            topicOb1[topic.viewpoint][topic.id].narrower;
+                          var items1 = topicOb1[topic.viewpoint][topic.id].item;
+                          if (narrower1 && this.ismounted) {
+                            if (narrower1.length > 0) {
+                              // eslint-disable-next-line
+                              narrower1.map((childTopic) => {
+                                if (this.isTopicInCCViewpoints(childTopic.id)) {
                                   this.updateList(
                                     topic.viewpoint,
-                                    topic.id,
-                                    topicName2,
+                                    childTopic.id,
+                                    childTopic.name,
                                     2
                                   );
-                                  var narrower2 =
-                                    topicOb2[topic.viewpoint][topic.id]
-                                      .narrower;
-                                  if (narrower2 && this.ismounted) {
-                                    if (narrower2.length > 0) {
-                                      // eslint-disable-next-line
-                                      narrower2.map((childTopic) => {
-                                        this.updateList(
-                                          topic.viewpoint,
-                                          childTopic.id,
-                                          childTopic.name,
-                                          2
-                                        );
-                                      });
-                                    }
-                                  }
                                 }
                               });
                             }
                           }
-                        });
+
+                          if (items1.length > 0 && this.ismounted) {
+                            items1.map(async (item) => {
+                              var itemUrl1 =
+                                "item/" + item.corpus + "/" + item.id;
+                              if (!(itemUrl1 in itemList)) {
+                                itemList[itemUrl1] = { size: 1 };
+                                var itemData1 = await db.getView(itemUrl1);
+                                itemData1 = this.normalize(itemData1);
+                                itemData1 = itemData1[item.corpus][item.id];
+                                if (itemData1.topic && this.ismounted) {
+                                  var topics2 = itemData1.topic;
+                                  topics2.map(async (topic, idx) => {
+                                    if (this.isTopicInCCViewpoints(topic.id)) {
+                                      var topicData2 = await db.getView(
+                                        "topic/" +
+                                          topic.viewpoint +
+                                          "/" +
+                                          topic.id
+                                      );
+
+                                      var topicOb2 = this.normalize(topicData2);
+                                      if (
+                                        !(
+                                          topicOb2[topic.viewpoint][topic.id]
+                                            .name === undefined
+                                        )
+                                      ) {
+                                        var topicName2 =
+                                          topicOb2[topic.viewpoint][topic.id]
+                                            .name[0];
+                                        this.updateList(
+                                          topic.viewpoint,
+                                          topic.id,
+                                          topicName2,
+                                          2
+                                        );
+                                        var narrower2 =
+                                          topicOb2[topic.viewpoint][topic.id]
+                                            .narrower;
+                                        if (narrower2 && this.ismounted) {
+                                          if (narrower2.length > 0) {
+                                            // eslint-disable-next-line
+                                            narrower2.map((childTopic) => {
+                                              if (
+                                                this.isTopicInCCViewpoints(
+                                                  childTopic.id
+                                                )
+                                              ) {
+                                                this.updateList(
+                                                  topic.viewpoint,
+                                                  childTopic.id,
+                                                  childTopic.name,
+                                                  2
+                                                );
+                                              }
+                                            });
+                                          }
+                                        }
+                                      }
+                                    }
+                                  });
+                                }
+                              }
+                            });
+                          }
+                        }
                       }
-                    }
-                  });
+                    });
+                  }
                 }
-              }
-            });
+              });
+            }
           }
         });
       }
@@ -294,34 +320,20 @@ class CloudTag extends Component {
           url: r2List[tName1].url,
         });
       }
-
-      var topicList = this.state.tagcc;
-      var newR1 = [];
-      var newR2 = [];
-      for (var i = 0, len = topicList.length; i < len; i++) {
-        for (var j = 0, len2 = t1.length; j < len2; j++) {
-          if (topicList[i].key === t1[j].key) {
-            newR1.push(t1[j]);
-            break;
-          }
-        }
-        for (var z = 0, len3 = t2.length; z < len3; z++) {
-          if (topicList[i].key === t2[z].key) {
-            newR2.push(t2[z]);
-            break;
-          }
-        }
-      }
       this.setState({
-        tr1: newR1,
-        tr2: newR2,
+        tr1: t1,
+        tr2: t2,
       });
-      setTimeout(() => {
-        this.setState({
-          ccIsLoading: false,
-        });
-      }, 6000);
     }
+  }
+  isTopicInCCViewpoints(topicId) {
+    var topicList = this.state.tagcc;
+    for (var i = 0, len = topicList.length; i < len; i++) {
+      if (topicList[i].key === topicId) {
+        return true;
+      }
+    }
+    return false;
   }
   abortController = new AbortController();
   ismounted = false;
@@ -329,6 +341,11 @@ class CloudTag extends Component {
     this.ismounted = true;
     if (this.ismounted) {
       if (this.props.cc) {
+        setTimeout(() => {
+          this.setState({
+            ccIsLoading: false,
+          });
+        }, 6000);
         ViewpointCC.map(async (viewpointID) => {
           await fetch(USER_API + "viewpoint/" + viewpointID, {
             signal: this.abortController.signal,
@@ -337,14 +354,16 @@ class CloudTag extends Component {
             .then((data) => {
               this.updateTagCloud(data, "cc");
             })
+            .then(() => {
+              if (this.props.item) {
+                this.updateCCloud(this.props.item);
+              }
+            })
             .catch((err) => {
               if (err.name === "AbortError") return;
               throw err;
             });
         });
-      }
-      if (this.props.item) {
-        this.updateCCloud(this.props.item);
       }
 
       if (!this.props.cc) {
