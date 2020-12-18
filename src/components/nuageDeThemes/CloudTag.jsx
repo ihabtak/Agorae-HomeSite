@@ -431,7 +431,7 @@ class CloudTag extends Component {
       if (this.state.ccIsLoading) {
         return (
           <div className="cloudloading">
-            <SolarSystemLoading />
+            <SolarSystemLoading color="#144f5d"/>
           </div>
         );
       } else {

@@ -13,6 +13,7 @@ import notavailable from "../../assets/unnamed.png";
 import Popup from "reactjs-popup";
 import CloudTag from "../nuageDeThemes/CloudTag";
 import "./Items.css";
+import { SemipolarLoading } from "react-loadingg";
 
 class Items extends Component {
   constructor() {
@@ -27,6 +28,7 @@ class Items extends Component {
     Icdc: [],
     Icdc2: [],
     sortType: "asc",
+    itemsLoaded: false,
   };
 
   abortController = new AbortController();
@@ -141,6 +143,11 @@ class Items extends Component {
           data = this.normalize(data);
           this.updateItems(data);
         })
+        .then(() => {
+          setTimeout(() => {
+            this.setState({ itemsLoaded: true });
+          }, 3000);
+        })
         .catch((err) => {
           if (err.name === "AbortError") return;
           throw err;
@@ -186,264 +193,269 @@ class Items extends Component {
           a["400 contribution date:"][0].split("/").reverse().join()
         );
     });
-    return (
-      <div className="content">
-        <Row>
-          <Col>
-            <div onChange={this.onChangeValue}>
-              <button className="btn btn-dark" onClick={this.handleClick}>
-                {this.state.isToggleOn
-                  ? t("home.dateorder")
-                  : t("home.rankorder")}
-              </button>
-            </div>
-          </Col>
-          <Col>
-            <p className="text-right">
-              {" "}
-              {t("home.quantity")} {this.state.count}
-            </p>
-          </Col>
-        </Row>
-        {this.state.checked === true ? (
-          <CardDeck>
-            {sorted.map((item, idx) => (
-              <Card bg="light" key={idx} style={{ flexGrow: 4 }}>
-                {item["image/video"] === undefined ? (
-                  <Card.Img variant="top" src={item["imageUrl"]} />
-                ) : item["videoUrl"] === undefined ? (
-                  <Card.Img variant="top" src={item["imageUrl"]} />
-                ) : (
-                  <ReactPlayer
-                    controls={true}
-                    width="100%"
-                    height="30%"
-                    url={item["videoUrl"]}
-                  />
-                )}
+    if (this.state.itemsLoaded) {
+      return (
+        <div className="content">
+          <Row>
+            <Col>
+              <div onChange={this.onChangeValue}>
+                <button className="btn btn-dark" onClick={this.handleClick}>
+                  {this.state.isToggleOn
+                    ? t("home.dateorder")
+                    : t("home.rankorder")}
+                </button>
+              </div>
+            </Col>
+            <Col>
+              <p className="text-right">
+                {t("home.quantity")} {this.state.count}
+              </p>
+            </Col>
+          </Row>
+          {this.state.checked === true ? (
+            <CardDeck>
+              {sorted.map((item, idx) => (
+                <Card bg="light" key={idx} style={{ flexGrow: 4 }}>
+                  {item["image/video"] === undefined ? (
+                    <Card.Img variant="top" src={item["imageUrl"]} />
+                  ) : item["videoUrl"] === undefined ? (
+                    <Card.Img variant="top" src={item["imageUrl"]} />
+                  ) : (
+                    <ReactPlayer
+                      controls={true}
+                      width="100%"
+                      height="30%"
+                      url={item["videoUrl"]}
+                    />
+                  )}
 
-                <Card.Body>
-                  <Row>
-                    <Col sm={8}>
-                      {item["010 nom de l'initiative:"] === undefined ? (
-                        <Card.Title>
-                          {item["005 nom de l’élément:"][0]}{" "}
-                        </Card.Title>
-                      ) : (
-                        <Card.Title>
-                          {item["010 nom de l'initiative:"][0]}
-                        </Card.Title>
-                      )}
-                    </Col>
-                    <Col sm={4}>
-                      <div className="text-right">
-                        {item["500 collaborative evaluation: "] ===
-                        undefined ? (
-                          <span className="rank">No rang</span>
+                  <Card.Body>
+                    <Row>
+                      <Col sm={8}>
+                        {item["010 nom de l'initiative:"] === undefined ? (
+                          <Card.Title>
+                            {item["005 nom de l’élément:"][0]}
+                          </Card.Title>
                         ) : (
-                          <span className="rank"> {idx + 1} </span>
+                          <Card.Title>
+                            {item["010 nom de l'initiative:"][0]}
+                          </Card.Title>
                         )}
-                      </div>
-                    </Col>
-                  </Row>
+                      </Col>
+                      <Col sm={4}>
+                        <div className="text-right">
+                          {item["500 collaborative evaluation: "] ===
+                          undefined ? (
+                            <span className="rank">No rang</span>
+                          ) : (
+                            <span className="rank"> {idx + 1} </span>
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
 
-                  {item["048 organisation:"] === undefined ? (
-                    <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
-                  ) : (
-                    <Card.Subtitle className="mb-2 text-muted">
-                      {item["048 organisation:"][0]}
-                    </Card.Subtitle>
-                  )}
-                  <Card.Text>{item[t("home.resume")]}</Card.Text>
-                  <div className="text-right">
-                    {item["400 contribution date:"] === undefined ? (
-                      <span className="itemDate"> No date </span>
+                    {item["048 organisation:"] === undefined ? (
+                      <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                     ) : (
-                      <span className="itemDate">
-                        {item["400 contribution date:"][0]}
-                      </span>
+                      <Card.Subtitle className="mb-2 text-muted">
+                        {item["048 organisation:"][0]}
+                      </Card.Subtitle>
                     )}
-                  </div>
-                </Card.Body>
-
-                <Card.Footer>
-                  <Button variant="primary" href={item["url"]}>
-                    {t("home.card-plus")}
-                  </Button>
-                  <Popup
-                    trigger={
-                      <Button variant="primary">
-                        {" "}
-                        <CloudIconFirst />
-                      </Button>
-                    }
-                    modal
-                    nested
-                  >
-                    {(close) => (
-                      <div className="modalPop">
-                        <button className="close" onClick={close}>
-                          &times;
-                        </button>
-                        <div className="header">
-                          Nuage contextuel 1:{" "}
-                          {item["010 nom de l'initiative:"] === undefined
-                            ? item["005 nom de l’élément:"][0]
-                            : item["010 nom de l'initiative:"][0]}
-                        </div>
-                        <div className="content">
-                          <CloudTag cc item={item} r1 />
-                        </div>
-                      </div>
-                    )}
-                  </Popup>
-                  <Popup
-                    trigger={
-                      <Button variant="primary">
-                        <CloudIconSec />
-                      </Button>
-                    }
-                    modal
-                    nested
-                  >
-                    {(close) => (
-                      <div className="modalPop">
-                        <button className="close" onClick={close}>
-                          &times;
-                        </button>
-                        <div className="header">
-                          Nuage contextuel 2:{" "}
-                          {item["010 nom de l'initiative:"] === undefined
-                            ? item["005 nom de l’élément:"][0]
-                            : item["010 nom de l'initiative:"][0]}
-                        </div>
-
-                        <div className="content">
-                          <CloudTag cc item={item} r2 />
-                        </div>
-                      </div>
-                    )}
-                  </Popup>
-                </Card.Footer>
-              </Card>
-            ))}
-          </CardDeck>
-        ) : (
-          <CardDeck>
-            {datesorted.map((item, idx) => (
-              <Card bg="light" key={idx} style={{ flexGrow: 4 }}>
-                {item["image/video"] === undefined ? (
-                  <Card.Img variant="top" src={item["imageUrl"]} />
-                ) : item["videoUrl"] === undefined ? (
-                  <Card.Img variant="top" src={item["imageUrl"]} />
-                ) : (
-                  <ReactPlayer
-                    controls={true}
-                    width="100%"
-                    height="30%"
-                    url={item["videoUrl"]}
-                  />
-                )}
-
-                <Card.Body>
-                  <Row>
-                    <Col sm={8}>
-                      {item["010 nom de l'initiative:"] === undefined ? (
-                        <Card.Title>
-                          {item["005 nom de l’élément:"][0]}{" "}
-                        </Card.Title>
+                    <Card.Text>{item[t("home.resume")]}</Card.Text>
+                    <div className="text-right">
+                      {item["400 contribution date:"] === undefined ? (
+                        <span className="itemDate"> No date </span>
                       ) : (
-                        <Card.Title>
-                          {item["010 nom de l'initiative:"][0]}
-                        </Card.Title>
+                        <span className="itemDate">
+                          {item["400 contribution date:"][0]}
+                        </span>
                       )}
-                    </Col>
-                  </Row>
+                    </div>
+                  </Card.Body>
 
-                  {item["048 organisation:"] === undefined ? (
-                    <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
+                  <Card.Footer>
+                    <Button variant="primary" href={item["url"]}>
+                      {t("home.card-plus")}
+                    </Button>
+                    <Popup
+                      trigger={
+                        <Button variant="primary">
+                          <CloudIconFirst />
+                        </Button>
+                      }
+                      modal
+                      nested
+                    >
+                      {(close) => (
+                        <div className="modalPop">
+                          <button className="close" onClick={close}>
+                            &times;
+                          </button>
+                          <div className="header">
+                            Nuage contextuel 1:{" "}
+                            {item["010 nom de l'initiative:"] === undefined
+                              ? item["005 nom de l’élément:"][0]
+                              : item["010 nom de l'initiative:"][0]}
+                          </div>
+                          <div className="content">
+                            <CloudTag cc item={item} r1 />
+                          </div>
+                        </div>
+                      )}
+                    </Popup>
+                    <Popup
+                      trigger={
+                        <Button variant="primary">
+                          <CloudIconSec />
+                        </Button>
+                      }
+                      modal
+                      nested
+                    >
+                      {(close) => (
+                        <div className="modalPop">
+                          <button className="close" onClick={close}>
+                            &times;
+                          </button>
+                          <div className="header">
+                            Nuage contextuel 2:{" "}
+                            {item["010 nom de l'initiative:"] === undefined
+                              ? item["005 nom de l’élément:"][0]
+                              : item["010 nom de l'initiative:"][0]}
+                          </div>
+
+                          <div className="content">
+                            <CloudTag cc item={item} r2 />
+                          </div>
+                        </div>
+                      )}
+                    </Popup>
+                  </Card.Footer>
+                </Card>
+              ))}
+            </CardDeck>
+          ) : (
+            <CardDeck>
+              {datesorted.map((item, idx) => (
+                <Card bg="light" key={idx} style={{ flexGrow: 4 }}>
+                  {item["image/video"] === undefined ? (
+                    <Card.Img variant="top" src={item["imageUrl"]} />
+                  ) : item["videoUrl"] === undefined ? (
+                    <Card.Img variant="top" src={item["imageUrl"]} />
                   ) : (
-                    <Card.Subtitle className="mb-2 text-muted">
-                      {item["048 organisation:"][0]}
-                    </Card.Subtitle>
+                    <ReactPlayer
+                      controls={true}
+                      width="100%"
+                      height="30%"
+                      url={item["videoUrl"]}
+                    />
                   )}
-                  <Card.Text>{item[t("home.resume")]}</Card.Text>
-                  <div className="text-right">
-                    {item["400 contribution date:"] === undefined ? (
-                      <span className="itemDate"> No date </span>
+
+                  <Card.Body>
+                    <Row>
+                      <Col sm={8}>
+                        {item["010 nom de l'initiative:"] === undefined ? (
+                          <Card.Title>
+                            {item["005 nom de l’élément:"][0]}
+                          </Card.Title>
+                        ) : (
+                          <Card.Title>
+                            {item["010 nom de l'initiative:"][0]}
+                          </Card.Title>
+                        )}
+                      </Col>
+                    </Row>
+
+                    {item["048 organisation:"] === undefined ? (
+                      <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                     ) : (
-                      <span className="itemDate">
-                        {item["400 contribution date:"][0]}
-                      </span>
+                      <Card.Subtitle className="mb-2 text-muted">
+                        {item["048 organisation:"][0]}
+                      </Card.Subtitle>
                     )}
-                  </div>
-                </Card.Body>
+                    <Card.Text>{item[t("home.resume")]}</Card.Text>
+                    <div className="text-right">
+                      {item["400 contribution date:"] === undefined ? (
+                        <span className="itemDate"> No date </span>
+                      ) : (
+                        <span className="itemDate">
+                          {item["400 contribution date:"][0]}
+                        </span>
+                      )}
+                    </div>
+                  </Card.Body>
 
-                <Card.Footer>
-                  <Button variant="primary" href={item["url"]}>
-                    {t("home.card-plus")}
-                  </Button>
-                  <Popup
-                    trigger={
-                      <Button variant="primary">
-                        {" "}
-                        <CloudIconFirst />
-                      </Button>
-                    }
-                    modal
-                    nested
-                  >
-                    {(close) => (
-                      <div className="modalPop">
-                        <button className="close" onClick={close}>
-                          &times;
-                        </button>
-                        <div className="header">
-                          Nuage contextuel 1:{" "}
-                          {item["010 nom de l'initiative:"] === undefined
-                            ? item["005 nom de l’élément:"][0]
-                            : item["010 nom de l'initiative:"][0]}
+                  <Card.Footer>
+                    <Button variant="primary" href={item["url"]}>
+                      {t("home.card-plus")}
+                    </Button>
+                    <Popup
+                      trigger={
+                        <Button variant="primary">
+                          <CloudIconFirst />
+                        </Button>
+                      }
+                      modal
+                      nested
+                    >
+                      {(close) => (
+                        <div className="modalPop">
+                          <button className="close" onClick={close}>
+                            &times;
+                          </button>
+                          <div className="header">
+                            Nuage contextuel 1:{" "}
+                            {item["010 nom de l'initiative:"] === undefined
+                              ? item["005 nom de l’élément:"][0]
+                              : item["010 nom de l'initiative:"][0]}
+                          </div>
+                          <div className="content">
+                            <CloudTag cc item={item} r1 />
+                          </div>
                         </div>
-                        <div className="content">
-                          <CloudTag cc item={item} r1 />
-                        </div>
-                      </div>
-                    )}
-                  </Popup>
-                  <Popup
-                    trigger={
-                      <Button variant="primary">
-                        <CloudIconSec />
-                      </Button>
-                    }
-                    modal
-                    nested
-                  >
-                    {(close) => (
-                      <div className="modalPop">
-                        <button className="close" onClick={close}>
-                          &times;
-                        </button>
-                        <div className="header">
-                          Nuage contextuel 2:{" "}
-                          {item["010 nom de l'initiative:"] === undefined
-                            ? item["005 nom de l’élément:"][0]
-                            : item["010 nom de l'initiative:"][0]}
-                        </div>
+                      )}
+                    </Popup>
+                    <Popup
+                      trigger={
+                        <Button variant="primary">
+                          <CloudIconSec />
+                        </Button>
+                      }
+                      modal
+                      nested
+                    >
+                      {(close) => (
+                        <div className="modalPop">
+                          <button className="close" onClick={close}>
+                            &times;
+                          </button>
+                          <div className="header">
+                            Nuage contextuel 2:{" "}
+                            {item["010 nom de l'initiative:"] === undefined
+                              ? item["005 nom de l’élément:"][0]
+                              : item["010 nom de l'initiative:"][0]}
+                          </div>
 
-                        <div className="content">
-                          <CloudTag cc item={item} r2 />
+                          <div className="content">
+                            <CloudTag cc item={item} r2 />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Popup>
-                </Card.Footer>
-              </Card>
-            ))}
-          </CardDeck>
-        )}
-      </div>
-    );
+                      )}
+                    </Popup>
+                  </Card.Footer>
+                </Card>
+              ))}
+            </CardDeck>
+          )}
+        </div>
+      );
+    } else {
+      return (
+        <div className="itemloading">
+          <SemipolarLoading color="#144f5d" />
+        </div>
+      );
+    }
   }
 }
 
