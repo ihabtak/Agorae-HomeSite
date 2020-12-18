@@ -146,7 +146,7 @@ class Items extends Component {
         .then(() => {
           setTimeout(() => {
             this.setState({ itemsLoaded: true });
-          }, 3000);
+          }, 4000);
         })
         .catch((err) => {
           if (err.name === "AbortError") return;
