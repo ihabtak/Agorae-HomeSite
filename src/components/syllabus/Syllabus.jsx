@@ -6,4 +6,5 @@ export const Syllabus = () => (
     <h1>Syllabus </h1>
     <p>In progress ...</p>
     </div>
+    
 )
