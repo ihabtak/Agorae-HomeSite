@@ -187,15 +187,16 @@ class Items extends Component {
 
     //sort by date
 
-    let datesorted = Icdc2.sort(
-      (a, b) =>
+    let datesorted = Icdc2.sort((a, b) => {
+      return (
         new Date(
-          (b["400 contribution date:"][0] + "/01").split("/").reverse().join()
+          (b["400 contribution date:"][0] + "/01")
         ) -
         new Date(
-          (a["400 contribution date:"][0] + "/01").split("/").reverse().join()
+          (a["400 contribution date:"][0] + "/01")
         )
-    );
+      );
+    });
 
     if (this.state.itemsLoaded) {
       return (
