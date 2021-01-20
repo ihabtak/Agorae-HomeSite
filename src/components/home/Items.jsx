@@ -184,15 +184,19 @@ class Items extends Component {
         a["500 collaborative evaluation: "][0]
       );
     });
-    const datesorted = Icdc2.sort((a, b) => {
-      return b["400 contribution date:"][0]
-        .split("/")
-        .reverse()
-        .join()
-        .localeCompare(
-          a["400 contribution date:"][0].split("/").reverse().join()
-        );
-    });
+
+    //sort by date
+
+    let datesorted = Icdc2.sort(
+      (a, b) =>
+        new Date(
+          (b["400 contribution date:"][0] + "/01").split("/").reverse().join()
+        ) -
+        new Date(
+          (a["400 contribution date:"][0] + "/01").split("/").reverse().join()
+        )
+    );
+
     if (this.state.itemsLoaded) {
       return (
         <div className="content">
