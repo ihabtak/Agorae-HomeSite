@@ -119,16 +119,22 @@ class Items extends Component {
               itemCard["resumeEn"] = itemCard["035 summary:"][0];
             }
           }
-          // eslint-disable-next-line
-          this.setState(function (prevState, props) {
-            var joined = prevState.Icdc.concat(itemCard);
-            return { Icdc: joined };
-          });
-          // eslint-disable-next-line
+        
+          if(itemCard["500 collaborative evaluation: "]){
+            // eslint-disable-next-line
+            this.setState(function (prevState, props) {
+              var joined = prevState.Icdc.concat(itemCard);
+              return { Icdc: joined };
+            });
+          }
+
+          if(itemCard["400 contribution date:"]){
+            // eslint-disable-next-line
           this.setState(function (prevState, props) {
             var joined = prevState.Icdc2.concat(itemCard);
             return { Icdc2: joined };
           });
+          }
         }
       }
     }
