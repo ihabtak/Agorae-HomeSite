@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { USER_API, MAP21_URL, CdcLinks } from "../Constants";
+import { USER_API, MAP21_URL, CorpusIds } from "../Constants";
 import CardDeck from "react-bootstrap/CardDeck";
 import "react-bootstrap";
 import Card from "react-bootstrap/Card";
@@ -142,8 +142,8 @@ class Items extends Component {
   componentDidMount() {
     document.title = "Home";
     // les items avec le statut Agoare coup-de-coeur
-    CdcLinks.map(async (corpus, idx) => {
-      await fetch(USER_API + corpus, { signal: this.abortController.signal })
+    CorpusIds.map(async (corpus, idx) => {
+      await fetch(USER_API +"corpus/"+corpus, { signal: this.abortController.signal })
         .then((results) => results.json())
         .then((data) => {
           data = this.normalize(data);

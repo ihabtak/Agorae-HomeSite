@@ -7,8 +7,10 @@ export const ViewpointIDs = ["2ba774a7cbd1e14fa45e57ba0001070c"
                             ,"2ba774a7cbd1e14fa45e57ba00011c69"
                             ,"7f5df3a657e64ba1c44b7a30a3003f65"
                         ];
-export const CdcLinks = ["corpus/2ba774a7cbd1e14fa45e57ba0000f2ac",
-                         "corpus/2ba774a7cbd1e14fa45e57ba0000fa79"
+export const CorpusIds = ["2ba774a7cbd1e14fa45e57ba0000f2ac",
+                         "2ba774a7cbd1e14fa45e57ba0000fa79",
+                         "6cc411d06b5890af3601957b5d014265",
+                         "6cc411d06b5890af3601957b5d015025"
                         ];
 export const ViewpointCC = ["2ba774a7cbd1e14fa45e57ba0001070c"
                             ,"7f5df3a657e64ba1c44b7a30a3016915"
